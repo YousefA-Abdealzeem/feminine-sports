@@ -1,59 +1,191 @@
-# WomensSport
+# 🚀 WomensSport Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.7.
+## 📌 Project Overview
 
-## Development server
+WomensSport is an Angular web application focused on managing and displaying sports-related content for women.
+The project is structured using Angular best practices (features, shared components, routing).
 
-To start a local development server, run:
+---
+
+# 🛠️ Tech Stack
+
+* Angular 21
+* Bootstrap
+* FontAwesome
+* Animate.css
+
+---
+
+# ⚙️ Getting Started (Important)
+
+## 🥇 1) Clone the repository
+
+```bash
+git clone https://github.com/YousefA-Abdealzeem/feminine-sports.git
+cd feminine-sports
+```
+
+---
+
+## 🥈 2) Install dependencies
+
+```bash
+npm install
+```
+
+---
+
+## 🥉 3) Run the project
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Then open:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200/
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+# 📂 Project Structure
+
+```
+src/
+ ├── app/
+ │    ├── feature/
+ │    │     └── womens-sports/
+ │    │           ├── pages/
+ │    │           ├── shared/
+ │    │           └── dashboard/
+ │    ├── app.routes.ts
+ │    └── app.config.ts
+ ├── assets/
+ └── styles.css
 ```
 
-## Building
+---
 
-To build the project run:
+# 👨‍💻 Team Workflow (VERY IMPORTANT)
 
-```bash
-ng build
-```
+## ⚠️ Rules
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+* ❌ Do NOT work directly on `main`
 
-## Running unit tests
+* ❌ Do NOT push broken code
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+* ❌ Do NOT upload node_modules
 
-```bash
-ng test
-```
+* ✅ Always work on a branch
 
-## Running end-to-end tests
+* ✅ Pull latest changes before starting
 
-For end-to-end (e2e) testing, run:
+---
+
+## 🥇 Step 1: Switch to dev branch
 
 ```bash
-ng e2e
+git checkout dev
+git pull
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+---
 
-## Additional Resources
+## 🥈 Step 2: Create your own branch
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Example:
+
+```bash
+git checkout -b feature/login
+```
+
+Branch naming:
+
+```
+feature/login
+feature/profile
+feature/dashboard
+feature/posts
+```
+
+---
+
+## 🥉 Step 3: Work normally
+
+Create your components, pages, styling, etc.
+
+---
+
+## 🏁 Step 4: Save your work
+
+```bash
+git add .
+git commit -m "add login page"
+git push origin feature/login
+```
+
+---
+
+## 🔁 Step 5: Merge into dev (Team Leader)
+
+```bash
+git checkout dev
+git pull
+git merge feature/login
+git push origin dev
+```
+
+---
+
+# 📌 Features in the Project
+
+* 🏠 Hero / Home Page
+* 📄 About Page
+* 📞 Contact Page
+* 👤 Profile Page
+* 🔐 Login & Register
+* 📚 Posts & Post Details
+* ⚙️ Dashboard (Admin)
+
+---
+
+# 🎨 Styling Rules
+
+* Global styles → `styles.css`
+* Component styles → inside each component
+* Use Bootstrap classes when possible
+
+---
+
+# ⚠️ Important Notes
+
+* Run `npm install` after pulling any updates
+* If errors happen:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
+
+---
+
+# 👨‍💻 Team Roles (Optional)
+
+* Frontend UI (Components)
+* Routing & Navigation
+* API Integration
+* Dashboard
+
+---
+
+# 🔥 Final Notes
+
+* Keep code clean
+* Follow naming conventions
+* Communicate before big changes
+
+---
+
+# ❤️ Good Luck Team 🚀
+
