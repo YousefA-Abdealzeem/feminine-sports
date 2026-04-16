@@ -1,0 +1,121 @@
+
+body {
+  margin: 0;
+  direction: rtl;
+  font-family: Arial, sans-serif;
+}
+
+.page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(to right, #1e3a8a, #0ea5e9);
+}
+
+.icon {
+  width: 70px;
+  height: 70px;
+  background: #e0f2fe;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  font-size: 28px;
+  color: #0284c7;
+}
+
+h2 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  text-align: center;
+}
+
+.subtitle {
+  color: gray;
+  font-size: 14px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  text-align: right;
+  margin: 10px 0 5px;
+  font-size: 14px;
+  color: #333;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input:focus {
+  border-color: #0ea5e9;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(to right, #1e3a8a, #0ea5e9);
+  color: white;
+  font-size: 16px;
+  margin-top: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* 2. كارد صفحة تسجيل الدخول */
+.login-card {
+  background: #fff;
+  padding: 30px;
+  border-radius: 20px;
+  width: 330px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.register {
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.register span {
+  color: #1e3a8a;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* 3. كارد صفحة إنشاء الحساب */
+.card {
+  background: #fff;
+  width: 350px;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.login {
+  margin-top: 15px;
+  font-size: 13px;
+  text-align: center;
+}
+
+.login span {
+  color: #0ea5e9;
+  cursor: pointer;
+  font-weight: bold;
+}
