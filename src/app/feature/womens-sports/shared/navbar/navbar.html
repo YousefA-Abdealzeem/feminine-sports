@@ -1,0 +1,44 @@
+<nav class="navbar navbar-main">
+
+  <!-- Logo -->
+   <div class="logo">
+    <img src="/assets/images/logonavbar.png" alt="" routerLink="/hero" />
+    <a class="logo-write" routerLink="/hero">HerPower</a>
+   </div>
+
+  <!-- Toggle (mobile فقط) -->
+  <button class="toggle" (click)="toggleNavbar()">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- Menu -->
+  <div class="menu " [class.show]="isOpen">
+
+    <ul class="nav-links ml-auto mr-3 d-flex align-items-center">
+
+      <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        <a routerLink="/hero">Home</a>
+      </li>
+
+      <li routerLinkActive="active">
+        <a routerLink="/about">About</a>
+      </li>
+
+      <li routerLinkActive="active">
+        <a routerLink="/contact">Contact</a>
+      </li>
+
+      <li routerLinkActive="active">
+        <a routerLink="/terms">Terms</a>
+      </li>
+
+    </ul>
+
+    <!-- Profile -->
+    
+  </div>
+  <div class="profile" (click)="goToProfile()">
+    <img [src]="userImage" />
+  </div>
+
+</nav>

@@ -1,0 +1,74 @@
+<div class="container hero-container mt-4">
+  <div class="row">
+
+    <!-- Posts -->
+    <div class="col-12 col-lg-8 d-flex flex-column gap-4">
+
+      <div class="card intro text-white border-0">
+        <div class="card-body">
+          <h1>أهلا بكم في الرياضات النسائية</h1>
+          <p>الرياضة النسائية في مصر والعالم العربي</p>
+        </div>
+      </div>
+
+      <div 
+        *ngFor="let post of filteredPosts"
+        class="card posts shadow cursor-pointer"
+        [routerLink]="['/post', post.id]"
+      >
+        <img [src]="post.img" class="card-img-top">
+
+        <div class="card-body bg-white">
+          <span class="label-post">{{ post.category }}</span>
+
+          <h2 class="title-post">{{ post.title }}</h2>
+
+          <p>{{ post.desc }}</p>
+
+          <div class="post-num d-flex align-items-center gap-2 mt-2">
+            <i class="fa-regular fa-heart"></i>
+            <span>{{ post.likeCount }}</span>
+
+            <i class="fa-regular fa-comment pe-3"></i>
+            <span>{{ post.comments.length }}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Filter -->
+    <div class="col-12 col-lg-4 filter-container">
+
+      <div class="card shadow rounded-4">
+        <div class="card-body">
+
+          <h5 class="mb-3">اختر حسب الرياضة</h5>
+
+          <div class="filter-item mb-2" [class.active]="selectedCategory === 'all'" (click)="setCategory('all')">
+            الجميع
+          </div>
+
+          <div class="filter-item mb-2" [class.active]="selectedCategory === 'كرة القدم'" (click)="setCategory('كرة القدم')">
+            كرة القدم
+          </div>
+
+          <div class="filter-item mb-2" [class.active]="selectedCategory === 'السلة'" (click)="setCategory('السلة')">
+            السلة
+          </div>
+
+          <div class="filter-item mb-2" [class.active]="selectedCategory === 'السباحة'" (click)="setCategory('السباحة')">
+            السباحة
+          </div>
+          
+          <div class="filter-item mb-2" [class.active]="selectedCategory === 'الجري'" (click)="setCategory('الجري')">
+            الجري
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

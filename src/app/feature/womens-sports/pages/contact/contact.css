@@ -1,0 +1,65 @@
+
+/* title */
+.title-contact{
+  color:#143f4a;
+  font-weight:700;
+}
+
+/* input */
+.custom-input{
+  border-radius:15px;
+  padding:14px;
+  border:1px solid #ddd;
+}
+
+.custom-input:focus{
+  box-shadow:none;
+  border-color:#1b5b67;
+}
+
+/* button */
+.send-btn{
+  background:#143f4a;
+  color:#fff;
+  border-radius:15px;
+  padding:12px;
+  transition:.3s;
+}
+
+.send-btn:hover{
+  background:#0f3139;
+  color:#fff;
+}
+
+/* icons */
+.icon-box{
+  width:45px;
+  height:45px;
+  border-radius:14px;
+  background:#d7ece8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#143f4a;
+  font-size:18px;
+}
+
+/* social */
+.social-box{
+  background:#d7ece8;
+  border-radius:18px;
+  padding:20px 10px;
+  color:#143f4a;
+  transition:.3s;
+}
+
+.social-box:hover{
+  transform:translateY(-5px);
+  background-color: #0f3139;
+  color: white;
+}
+
+/* support */
+.support-box{
+  background:linear-gradient(135deg,#143f4a,#2b7b88);
+}

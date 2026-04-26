@@ -1,0 +1,96 @@
+
+/* ===== FOOTER BASE ===== */
+.footer {
+  background: #102f365b;
+  color: #102f36;
+  padding: 60px 20px 20px;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+/* ===== CONTAINER ===== */
+.footer-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  max-width: 1100px;
+  margin: auto;
+  flex-wrap: wrap;
+}
+
+/* ===== BOX ===== */
+.footer-box {
+  flex: 1;
+  min-width: 200px;
+}
+
+.footer-box h3,
+.footer-box h4 {
+  margin-bottom: 15px;
+  color: #102f36;
+}
+
+.footer-box p {
+  color: #102f36;
+  line-height: 1.6;
+}
+
+/* ===== LINKS ===== */
+.footer-box ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-box ul li {
+  margin-bottom: 10px;
+}
+
+.footer-box ul li a {
+  color: #102f36;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.footer-box ul li a:hover {
+  color: #ffffff;
+  padding-left: 5px;
+}
+
+/* ===== SOCIAL ===== */
+.social {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+}
+
+.social i {
+  cursor: pointer;
+  transition: 0.3s;
+  color: #102f36;
+}
+
+.social i:hover {
+  color: #ffffff;
+  transform: scale(1.2);
+}
+
+/* ===== BOTTOM ===== */
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  color: #aaa;
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .social {
+    justify-content: center;
+  }
+}
