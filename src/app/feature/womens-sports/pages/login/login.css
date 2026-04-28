@@ -1,134 +1,253 @@
-.register{
-  direction: rtl;
-    color: white;
-    padding-top: 15px;
-}
 
-span{
-    padding-right: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    text-decoration: underline;
-}
-
-span:hover{
-    transform: scale(1.02);
-    color: cadetblue;
-    text-decoration: underline;
-    font-size: 17px;
-}
-
-
-
-
+/* ================= PAGE ================= */
 
 .page {
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(to right, #1e5660, #000000);
+
+  overflow: hidden;
+
+  /* 🌌 cinematic background */
+  background:
+    radial-gradient(circle at 20% 20%, rgba(91,168,192,0.12), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(212,102,122,0.10), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(201,169,110,0.05), transparent 60%),
+    #080C10;
 }
 
+/* ================= LOGIN CARD ================= */
+
+.login-card {
+  position: relative;
+
+  width: 420px;
+  padding: 36px;
+
+  border-radius: 26px;
+
+  /* 🧊 glass + depth */
+  background: linear-gradient(
+    145deg,
+    rgba(18, 25, 32, 0.82),
+    rgba(8, 12, 16, 0.65)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(201, 169, 110, 0.12);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+  transition: 0.4s ease;
+}
+
+/* hover lift */
+.login-card:hover {
+  transform: translateY(-6px);
+}
+
+/* glow overlay */
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  border-radius: 26px;
+
+  background: radial-gradient(
+    circle at top left,
+    rgba(212, 102, 122, 0.15),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+/* ================= ICON ================= */
+
 .icon {
-  width: 70px;
-  height: 70px;
-  background: #00000051;
-  border-radius: 50%;
+  width: 78px;
+  height: 78px;
+
+  border-radius: 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: auto;
-  font-size: 28px;
-  color: #0284c7;
+
+  margin: 0 auto 18px;
+
+
+  box-shadow:
+    0 18px 40px rgba(212, 102, 122, 0.25),
+    inset 0 2px 10px rgba(255,255,255,0.08);
+
+  transition: all 0.35s ease;
+
+  overflow: hidden;
 }
 
+/* glow layer */
+.icon::after {
+  content: "";
+  position: absolute;
+  inset: -20px;
+  opacity: 0;
+  transition: 0.4s ease;
+}
+
+.icon:hover {
+  transform: translateY(-4px) scale(1.03);
+
+  box-shadow:
+    0 25px 55px rgba(212, 102, 122, 0.35);
+}
+
+.icon:hover::after {
+  opacity: 1;
+}
+
+.icon img {
+  width: 65%;
+  height: 65%;
+
+  object-fit: contain;
+
+  filter: brightness(1.08) contrast(1.05);
+}
+
+/* ================= TEXT ================= */
+
 h2 {
-    color: rgb(255, 255, 255);
-  margin-top: 15px;
-  margin-bottom: 5px;
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 6px;
   text-align: center;
+  font-weight: 800;
 }
 
 .subtitle {
-  color: rgba(255, 255, 255, 0.691);
+  color: rgba(255,255,255,0.7);
   font-size: 14px;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
   text-align: center;
 }
+
+/* ================= LABEL ================= */
 
 label {
   display: block;
   text-align: right;
-  margin: 10px 0 5px;
+
+  margin: 12px 0 6px;
+
   font-size: 14px;
-  color: #ffffff;
+
+  color: rgba(255,255,255,0.8);
 }
+
+/* ================= INPUT ================= */
 
 input {
   width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  border: 1px solid #1e5660;
-  margin-bottom: 10px;
+  padding: 13px 14px;
+
+  border-radius: 14px;
+
+  border: 1px solid rgba(201, 169, 110, 0.12);
+
+  background: rgba(255, 255, 255, 0.04);
+
+  color: #fff;
+
   outline: none;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  backdrop-filter: blur(8px);
+
   transition: all 0.3s ease;
 }
 
-input:hover{
-    transform: scale(1.02);
-}
-
-input::placeholder {
-  color: rgba(255,255,255,0.7);
+input:hover {
+  border-color: rgba(91,168,192,0.4);
 }
 
 input:focus {
-  border-color: #0ea5e9;
-  background: rgba(255, 255, 255, 0.25);
+  border-color: #5BA8C0;
+
+  box-shadow:
+    0 0 0 3px rgba(91,168,192,0.18),
+    0 10px 25px rgba(0,0,0,0.25);
+
+  background: rgba(255,255,255,0.06);
 }
+
+input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ================= BUTTON ================= */
 
 button {
   width: 100%;
   padding: 14px;
+
+  margin-top: 16px;
+
+  border-radius: 16px;
+
   border: none;
-  border-radius: 15px;
-  background: linear-gradient(to right, #cfeae488, #1e56607b);
-  color: white;
+
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+
+  color: #080C10;
+
   font-size: 16px;
-  margin-top: 15px;
+  font-weight: 800;
+
   cursor: pointer;
-  transition: all 0.3s ease;
+
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 18px 40px rgba(212, 102, 122, 0.25);
 }
 
 button:hover {
-  transform: scale(1.05);
-  background: linear-gradient(
-    to right,
-    rgba(207, 234, 228, 0.2),
-    rgba(30, 86, 96, 0.2)
-  );
-  color: rgb(0, 0, 0);
+  transform: translateY(-3px) scale(1.01);
+
+  box-shadow:
+    0 25px 55px rgba(201, 169, 110, 0.28);
 }
 
-.login-card {
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 0.46),
-      rgba(0, 0, 0, 0)
-    ),
-    url('/assets/images/login.jpg');
+button:active {
+  transform: translateY(-1px) scale(0.99);
+}
 
-  background-size: cover;
-  background-position: center;
-  padding: 30px;
-  border-radius: 20px;
-  width: 400px;
-  height: 70%;
-  transform: translateY(-30px);
-  box-shadow: 0 50px 70px rgba(0, 0, 0, 0.61);
-  backdrop-filter: blur(10px);
+/* ================= REGISTER ================= */
+
+.register {
+  direction: rtl;
+  text-align: center;
+
+  color: rgba(255,255,255,0.7);
+
+  padding-top: 16px;
+}
+
+.register span {
+  padding-right: 8px;
+
+  color: #5BA8C0;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+}
+
+.register span:hover {
+  color: #D4667A;
+  transform: translateY(-2px);
 }

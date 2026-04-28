@@ -1,3 +1,5 @@
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
 body{
-      font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+      font-family: 'Cairo', sans-serif;
+      background-color: #f6f8fb;
 }

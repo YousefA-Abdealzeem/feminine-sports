@@ -1,76 +1,275 @@
 .hero-container {
-    direction: rtl;
-    padding: 30px 60px;
+  direction: rtl;
+  padding: 40px 60px;
+
+  /* ☁️ soft luxury light background */
+  background: #F6F8FB;
+  min-height: 100vh;
 }
 
-.intro{
-    background: linear-gradient(#1C515B , #2A6B77);
-    height: 170px;
-    border-radius: 25px;
+/* ================= INTRO HERO ================= */
+
+.intro {
+  position: relative;
+  overflow: hidden;
+
+  height: 230px;
+  border-radius: 28px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 35px;
+
+  color: #121920;
+
+  /* 🧊 glass background */
+  background: linear-gradient(
+    135deg,
+    rgba(255, 213, 213, 0.35) 0%,
+    rgba(255, 255, 255, 0.809) 50%,
+    rgba(0, 54, 70, 0.927) 100%
+  );
+
+  /* 🧊 blur glass effect */
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+
+  box-shadow:
+    0 20px 45px rgba(18, 25, 32, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  transition: 0.3s ease;
 }
 
-/* posts */
-.posts{
-    border-radius: 25px;
-    overflow: hidden;
-    
-}
-.card-img-top{
-    height: 350px;
-    object-fit: cover;
-    transition: all 0.3s ease;
-}
-.card-img-top:hover{
-    transform: scale(1.03);
+/* ✨ soft glow overlay */
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top left,
+    rgba(91, 168, 192, 0.18),
+    transparent 60%
+  );
+
+  z-index: 0;
 }
 
-.label-post{
-    display: inline-block;
-    background: #CFEAE4;
-    color:rgb(0, 0, 0);
-    font-size: 14px;
-    font-weight: 500;
-    padding: 5px 10px;
-    border-radius: 20px;
+/* ✨ reflection shine sweep */
+.intro::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -30%;
+
+  width: 60%;
+  height: 200%;
+
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.35) 45%,
+    rgba(255, 255, 255, 0.1) 50%,
+    transparent 70%
+  );
+
+  transform: rotate(15deg);
+
+  animation: shineMove 6s infinite linear;
+
+  pointer-events: none;
 }
 
-.title-post{
-    font-size: 30px;
-    color: #1B4D57;
-    font-weight: 600;
-    margin-top: 10px;
+/* ✨ animation */
+@keyframes shineMove {
+  0% {
+    transform: translateX(-100%) rotate(15deg);
+  }
+  100% {
+    transform: translateX(250%) rotate(15deg);
+  }
 }
 
-/* filter */
-.title-filter{
-    color: #2A6B77;
+/* ================= TEXT ================= */
+
+.intro h1,
+.intro p {
+  position: relative;
+  z-index: 2;
 }
 
-.fa-arrow-up{
-    color:#2A6B77;
+.intro h1 {
+  font-size: 34px;
+  font-weight: 900;
+  margin: 0;
+  color: #121920;
 }
 
-.filter-item {
-  padding: 8px 12px;
+.intro p {
+  margin-top: 10px;
+  color: #121920 !important;
+  font-weight: 500;
+  opacity: 0.95;
+}
+/* ✨ soft rose glow */
+.intro::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top left,
+    rgba(212, 102, 122, 0.15),
+    transparent 60%
+  );
+}
+
+/* ✨ elegant bottom line */
+.intro::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    #D4667A,
+    #5BA8C0,
+    #C9A96E
+  );
+
+  opacity: 0.6;
+}
+
+/* ================= TEXT ================= */
+
+.intro h1 {
+  font-size: 34px;
+  font-weight: 900;
+
+  margin: 0;
+
+  position: relative;
+  z-index: 2;
+
+  color: #121920;
+}
+
+.intro p {
+  opacity: 0.75;
+  margin-top: 10px;
+
+  position: relative;
+  z-index: 2;
+
+  color: #5BA8C0;
+}
+
+/* ================= POSTS ================= */
+
+.posts {
+  border-radius: 25px;
+  overflow: hidden;
+
+  background: #FFFFFF;
+  border: 1px solid rgba(18, 25, 32, 0.08);
+
+  transition: 0.3s ease;
+  color: #121920;
+}
+
+.posts:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 35px rgba(18, 25, 32, 0.12);
+  border-color: rgba(91, 168, 192, 0.3);
+}
+
+/* IMAGE */
+.card-img-top {
+  height: 350px;
+  object-fit: cover;
+  transition: 0.3s ease;
+}
+
+.card-img-top:hover {
+  transform: scale(1.05);
+}
+
+/* LABEL */
+.label-post {
+  display: inline-block;
+
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+  color: #fff;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  padding: 5px 12px;
   border-radius: 20px;
+}
+
+/* TITLE */
+.title-post {
+  font-size: 28px;
+  color: #121920;
+  font-weight: 800;
+  margin-top: 10px;
+}
+
+/* FILTER CARD */
+.filter-container .card {
+  background: #FFFFFF;
+  border: 1px solid rgba(18, 25, 32, 0.08);
+  color: #121920;
+}
+
+/* FILTER ITEMS */
+.filter-item {
+  padding: 10px 14px;
+  border-radius: 20px;
+
   cursor: pointer;
+
   transition: 0.3s;
-  background: #f5f5f5;
+
+  background: #F6F8FB;
+  border: 1px solid rgba(18, 25, 32, 0.08);
+
+  color: #121920;
 }
 
 .filter-item:hover {
-  background: #e0e0e0;
+  background: rgba(91, 168, 192, 0.10);
+  border-color: #5BA8C0;
 }
 
 .filter-item.active {
-  background: #1B4D57;
-  color: white;
-  font-weight: 500;
+  background: #D4667A;
+  color: #fff;
+  font-weight: 700;
 }
 
+/* ================= RESPONSIVE ================= */
+
 @media screen and (max-width: 1024px) {
-    .filter-container {
-         display: none;
-    }
-    
+  .hero-container {
+    padding: 20px;
+  }
+
+  .intro {
+    height: auto;
+    padding: 25px;
+  }
+
+  .filter-container{
+    display: none;
+  }
 }

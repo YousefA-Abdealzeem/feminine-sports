@@ -1,76 +1,171 @@
-.container{
-    width: 60%;
-    direction: rtl;
+/* ================= PAGE ================= */
+
+.container {
+  width: 60%;
+  direction: rtl;
+
+  background: #F6F8FB;
 }
 
-.card{
-    border-radius: 30px;
-    overflow: hidden;
+/* ================= CARD ================= */
+
+.card {
+  border-radius: 28px;
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.85);
+
+  border: 1px solid rgba(18, 25, 32, 0.08);
+
+  box-shadow: 0 10px 30px rgba(18, 25, 32, 0.06);
+
+  backdrop-filter: blur(10px);
+
+  transition: 0.3s ease;
 }
 
-.card-img-top{
-    height: 400px;
-    object-fit: cover;
-    transition: .3s;
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(18, 25, 32, 0.12);
+  border-color: rgba(91, 168, 192, 0.3);
 }
 
-.card-img-top:hover{
-    transform: scale(1.03);
+/* ================= IMAGE ================= */
+
+.card-img-top {
+  height: 400px;
+  object-fit: cover;
+
+  transition: 0.4s ease;
 }
 
-.label-post{
-    display: inline-block;
-    background: #CFEAE4;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 600;
+.card-img-top:hover {
+  transform: scale(1.05);
 }
 
-.title-post{
-    color: #1B4D57;
-    font-weight: bold;
+/* ================= LABEL ================= */
+
+.label-post {
+  display: inline-block;
+
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+
+  color: #fff;
+
+  padding: 6px 14px;
+
+  border-radius: 20px;
+
+  font-size: 13px;
+  font-weight: 700;
+
+  box-shadow: 0 10px 20px rgba(212, 102, 122, 0.25);
 }
 
-.form-control{
-    border-radius: 20px;
-    border: 1px solid #1B4D57;
-    padding: 15px;
+/* ================= TITLE ================= */
+
+.title-post {
+  color: #121920;
+
+  font-weight: 800;
+
+  font-size: 26px;
 }
 
-.form-control:focus{
-    box-shadow: none;
-    border-color: #1B4D57;
+/* ================= FORM INPUT ================= */
+
+.form-control {
+  border-radius: 20px;
+
+  border: 1px solid rgba(18, 25, 32, 0.12);
+
+  padding: 15px;
+
+  background: #fff;
+
+  transition: 0.3s ease;
+
+  color: #121920;
 }
 
-.btn{
-    background-color: #1B4D57;
-    color: white;
-    border-radius: 20px;
+.form-control:focus {
+  outline: none;
+
+  border-color: #5BA8C0;
+
+  box-shadow: 0 0 0 4px rgba(91, 168, 192, 0.15);
 }
 
-.btn:hover{
-    background-color: #0c2b34;
-    color: white;
+/* ================= BUTTON ================= */
+
+.btn {
+  background: linear-gradient(135deg, #D27378, #CB9E70);
+
+  color: #fff;
+
+  border-radius: 20px;
+
+  border: none;
+
+  font-weight: 700;
+
+  padding: 10px 18px;
+
+  transition: 0.3s ease;
+
 }
 
-.like-btn{
-    cursor: pointer;
-    transition: .3s;
+.btn:hover {
+  transform: translateY(-3px);
+
+  box-shadow: 0 10px 40px rgba(91, 168, 192, 0.25);
 }
 
-.like-btn:hover{
-    transform: scale(1.05);
+/* ================= LIKE BUTTON ================= */
+
+.like-btn {
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  color: #5BA8C0;
 }
 
-.comment-box{
-    border: 1px solid #eee;
-    border-radius: 18px;
-    background: #fafafa;
+.like-btn:hover {
+  transform: scale(1.1);
+  color: #D4667A;
 }
 
-.comment-user-img{
-    width: 50px;
-    height: 50px;
-    object-fit: cover;
+/* ================= COMMENT BOX ================= */
+
+.comment-box {
+  border-radius: 18px;
+
+  background: #FFFFFF;
+
+  border: 1px solid rgba(18, 25, 32, 0.06);
+
+  padding: 10px;
+
+  box-shadow: 0 8px 20px rgba(18, 25, 32, 0.05);
+}
+
+/* ================= USER IMAGE ================= */
+
+.comment-user-img {
+  width: 50px;
+  height: 50px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  border: 2px solid rgba(91, 168, 192, 0.2);
+}
+
+/* ================= OPTIONAL POLISH ================= */
+
+.container {
+  padding-top: 30px;
+  padding-bottom: 30px;
 }

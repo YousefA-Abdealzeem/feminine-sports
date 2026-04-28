@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PostsService } from 'app/core/services/posts';
+import { FilterService } from 'app/core/services/filter';
 
 @Component({
   selector: 'app-hero',
@@ -12,23 +13,28 @@ import { PostsService } from 'app/core/services/posts';
 })
 export class Hero implements OnInit {
 
-  selectedCategory = 'all';
   posts: any[] = [];
 
-  constructor(private postsService: PostsService) {}
+  constructor(
+    private postsService: PostsService,
+    public filterService: FilterService
+  ) {}
 
   ngOnInit() {
     this.posts = this.postsService.getAllPosts();
   }
 
   setCategory(cat: string) {
-    this.selectedCategory = cat;
+    this.filterService.setCategory(cat);
+  }
+
+  get selectedCategory(): string {
+    return this.filterService.selectedCategory();
   }
 
   get filteredPosts() {
-    if (this.selectedCategory === 'all') {
-      return this.posts;
-    }
-    return this.posts.filter(p => p.category === this.selectedCategory);
+    const cat = this.filterService.selectedCategory();
+    if (cat === 'all') return this.posts;
+    return this.posts.filter(p => p.category === cat);
   }
 }

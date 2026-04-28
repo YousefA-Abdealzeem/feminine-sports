@@ -1,66 +1,69 @@
-import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FilterService } from 'app/core/services/filter';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.html',
   styleUrls: ['./navbar.css'],
-  imports: [RouterLink , RouterLinkActive]
-
+  imports: [RouterLink, RouterLinkActive, CommonModule]
 })
-export class Navbar implements AfterViewInit {
+export class Navbar {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public filterService: FilterService) {}
 
-  activeIndex = 1;
+  isOpen = false;
+  isFilterOpen = false;
 
-  // 👇 دي الصورة الافتراضية
-  userImage: string = 'https://i.pravatar.cc/150?img=3';
-
-  navItems = [
-    { label: 'Hero', icon: 'fas fa-home-alt', link: '/hero' },
-    { label: 'About', icon: 'far fa-address-book', link: '/about' },
-    { label: 'Contact', icon: 'far fa-address-card', link: '/contact' },
-    { label: 'Terms', icon: 'far fa-clone', link: '/terms' }
+  categories = [
+    { value: 'all',       label: 'الجميع' },
+    { value: 'كرة القدم', label: 'كرة القدم' },
+    { value: 'السلة',     label: 'كرة السلة' },
+    { value: 'السباحة',   label: 'السباحة', },
+    { value: 'الجري',     label: 'الجري' },
   ];
 
-  ngAfterViewInit(): void {
-    setTimeout(() => this.updateSelector());
+  userImage: string = 'https://i.pravatar.cc/150?img=3';
+
+  toggleNavbar(): void {
+    this.isOpen = !this.isOpen;
+    if (this.isFilterOpen) this.isFilterOpen = false;
   }
 
-  setActive(index: number): void {
-    this.activeIndex = index;
-    this.router.navigate([this.navItems[index].link]);
+  toggleFilter(event: Event): void {
+    event.stopPropagation();
+    this.isFilterOpen = !this.isFilterOpen;
+  }
 
-    setTimeout(() => this.updateSelector());
+  setCategory(cat: string): void {
+    this.filterService.setCategory(cat);
+    this.isFilterOpen = false;
+  }
+
+  get selectedLabel(): string {
+    return this.categories.find(c => c.value === this.filterService.selectedCategory())?.label || 'فلتر';
   }
 
   goToProfile(): void {
     this.router.navigate(['/profile']);
   }
 
-  updateSelector(): void {
-    const tabs = document.getElementById('navbarSupportedContent');
-    const activeItem = tabs?.querySelectorAll('li')[this.activeIndex] as HTMLElement;
-
-    const horiSelector = document.querySelector('.hori-selector') as HTMLElement;
-
-    if (!activeItem || !horiSelector) return;
-
-    horiSelector.style.top = activeItem.offsetTop + 'px';
-    horiSelector.style.left = activeItem.offsetLeft + 'px';
-    horiSelector.style.height = activeItem.offsetHeight + 'px';
-    horiSelector.style.width = activeItem.offsetWidth + 'px';
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: Event): void {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.filter-wrapper')) {
+      this.isFilterOpen = false;
+    }
   }
 
-  @HostListener('window:resize')
-  onResize() {
-    setTimeout(() => this.updateSelector(), 500);
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    const navbar = document.querySelector('.navbar-main');
+    if (window.scrollY > 50) {
+      navbar?.classList.add('scrolled');
+    } else {
+      navbar?.classList.remove('scrolled');
+    }
   }
-
-isOpen = false;
-
-toggleNavbar(): void {
-  this.isOpen = !this.isOpen;
-}
 }

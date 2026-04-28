@@ -9,16 +9,17 @@ import { PostDetails } from './feature/womens-sports/pages/post-details/post-det
 import { Login } from './feature/womens-sports/pages/login/login';
 import { Register } from './feature/womens-sports/pages/register/register';
 import { Layout } from './layout/layout';
+import { LoadingScreen } from './feature/womens-sports/pages/loading-screen/loading-screen';
+
+
+
 
 export const routes: Routes = [
 
-  // default
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-
+  { path: '', component: LoadingScreen },
 
   { path: 'login', component: Login },
   { path: 'register', component: Register },
-
 
   {
     path: '',
@@ -34,7 +35,6 @@ export const routes: Routes = [
     ]
   },
 
-  // fallback
-  { path: '**', redirectTo: 'login' },
+  { path: '**', redirectTo: '' },
 
 ];

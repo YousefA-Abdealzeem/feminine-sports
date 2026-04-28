@@ -4,7 +4,7 @@
     <!-- Posts -->
     <div class="col-12 col-lg-8 d-flex flex-column gap-4">
 
-      <div class="card intro text-white border-0">
+      <div class="card intro text-white border-3 shadow">
         <div class="card-body">
           <h1>أهلا بكم في الرياضات النسائية</h1>
           <p>الرياضة النسائية في مصر والعالم العربي</p>
@@ -37,7 +37,7 @@
 
     </div>
 
-    <!-- Filter -->
+    <!-- Filter Sidebar (desktop) -->
     <div class="col-12 col-lg-4 filter-container">
 
       <div class="card shadow rounded-4">
@@ -46,23 +46,23 @@
           <h5 class="mb-3">اختر حسب الرياضة</h5>
 
           <div class="filter-item mb-2" [class.active]="selectedCategory === 'all'" (click)="setCategory('all')">
-            الجميع
+           الجميع
           </div>
 
           <div class="filter-item mb-2" [class.active]="selectedCategory === 'كرة القدم'" (click)="setCategory('كرة القدم')">
-            كرة القدم
+           كرة القدم
           </div>
 
           <div class="filter-item mb-2" [class.active]="selectedCategory === 'السلة'" (click)="setCategory('السلة')">
-            السلة
+           كرة السلة
           </div>
 
           <div class="filter-item mb-2" [class.active]="selectedCategory === 'السباحة'" (click)="setCategory('السباحة')">
-            السباحة
+           السباحة
           </div>
           
           <div class="filter-item mb-2" [class.active]="selectedCategory === 'الجري'" (click)="setCategory('الجري')">
-            الجري
+           الجري
           </div>
 
         </div>

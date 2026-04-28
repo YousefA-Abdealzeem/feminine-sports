@@ -1,42 +1,62 @@
 <nav class="navbar navbar-main">
 
   <!-- Logo -->
-   <div class="logo">
+  <div class="logo">
     <img src="/assets/images/logonavbar.png" alt="" routerLink="/hero" />
     <a class="logo-write" routerLink="/hero">HerPower</a>
-   </div>
+  </div>
 
-  <!-- Toggle (mobile فقط) -->
-  <button class="toggle" (click)="toggleNavbar()">
-    <i class="fas fa-bars"></i>
-  </button>
+  <!-- Toggle (mobile فقط) + Filter زرار -->
+  <div class="toggle-area">
 
-  <!-- Menu -->
-  <div class="menu " [class.show]="isOpen">
+    <!-- زرار الفلتر — يظهر بس لما التوجل ظاهر (موبايل) -->
+    <div class="filter-wrapper" *ngIf="isOpen">
+      <button class="filter-btn" (click)="toggleFilter($event)">
+        <i class="fas fa-sliders-h"></i>
+        <span class="filter-label">{{ selectedLabel }}</span>
+        <i class="fas fa-chevron-down filter-arrow" [class.rotated]="isFilterOpen"></i>
+      </button>
 
+      <!-- Dropdown -->
+      <div class="filter-dropdown" [class.open]="isFilterOpen">
+        <div
+          *ngFor="let cat of categories"
+          class="filter-option"
+          [class.selected]="filterService.selectedCategory() === cat.value"
+          (click)="setCategory(cat.value)"
+        >
+          <span class="cat-label">{{ cat.label }}</span>
+          <i class="fas fa-check check-icon" *ngIf="filterService.selectedCategory() === cat.value"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toggle button -->
+    <button class="toggle" (click)="toggleNavbar()">
+      <i class="fas fa-bars" [class.fa-times]="isOpen"></i>
+    </button>
+
+  </div>
+
+  <!-- Menu (desktop nav links) -->
+  <div class="menu" [class.show]="isOpen">
     <ul class="nav-links ml-auto mr-3 d-flex align-items-center">
-
       <li routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
         <a routerLink="/hero">Home</a>
       </li>
-
       <li routerLinkActive="active">
         <a routerLink="/about">About</a>
       </li>
-
       <li routerLinkActive="active">
         <a routerLink="/contact">Contact</a>
       </li>
-
       <li routerLinkActive="active">
         <a routerLink="/terms">Terms</a>
       </li>
-
     </ul>
-
-    <!-- Profile -->
-    
   </div>
+
+  <!-- Profile -->
   <div class="profile" (click)="goToProfile()">
     <img [src]="userImage" />
   </div>
