@@ -1,3 +1,10 @@
+# Admin login gmail : admin@herpower.com
+# Admin login password : herpower123
+
+# علشان تشغلي المشروع بعد متنزل الريبو عندك علي الجهاز تروح داخل ال VS.code في التيرمينال تكتب npm install هينزل ملف ال node module 
+# بعد مينزل ف التيرمينال برضو تكتب  ng s هيطلع link تفتح اللينك هتلاقي المشروع 
+# علشان توصل لصفحات ال dashboard بتكبت مثلا http://localhost:4200/dashboard 
+
 # 🚀 WomensSport Project
 
 ## 📌 Project Overview
