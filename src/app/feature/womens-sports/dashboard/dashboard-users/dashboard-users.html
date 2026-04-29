@@ -1,1 +1,93 @@
-<p>dashboard-users works!</p>
+<div class="du-wrap">
+
+  <div class="du-header">
+    <div>
+      <h2 class="du-title"><i class="fas fa-users"></i> إدارة المستخدمين</h2>
+      <p class="du-sub">{{ usersService.getAll().length }} مستخدم مسجل</p>
+    </div>
+    <div class="du-search-wrap">
+      <i class="fas fa-search du-search-icon"></i>
+      <input class="du-search" type="text" placeholder="ابحث عن مستخدم..." [(ngModel)]="searchTerm" />
+    </div>
+  </div>
+
+  <div class="du-table-wrap">
+    <table class="du-table">
+      <thead>
+        <tr>
+          <th>#</th><th>المستخدم</th><th>الدور</th>
+          <th>المخالفات</th><th>الحالة</th><th>الإجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let u of filteredUsers; let i = index" class="du-row">
+          <td class="du-num">{{ i+1 }}</td>
+          <td>
+            <div class="du-user-cell">
+              <img [src]="u.avatar" class="du-avatar" />
+              <div>
+                <div class="du-name">{{ u.name }}</div>
+                <div class="du-email">{{ u.email }}</div>
+                <div class="du-joined">انضم {{ u.joined }}</div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <span class="du-role" [class.admin]="u.role==='admin'">
+              <i class="fas" [class.fa-shield-halved]="u.role==='admin'" [class.fa-user]="u.role!=='admin'"></i>
+              {{ u.role==='admin' ? 'مشرف' : 'مستخدم' }}
+            </span>
+          </td>
+          <td class="du-center">
+            <span class="du-viol" [class.danger]="u.violations >= 3">{{ u.violations }}</span>
+          </td>
+          <td>
+            <div class="du-status-wrap">
+              <span class="du-status" [class]="u.status">
+                {{ u.status==='active' ? 'نشط' : u.status==='suspended' ? 'موقف' : 'محظور' }}
+              </span>
+              <div class="du-days" *ngIf="u.status==='suspended'">
+                {{ usersService.daysLeft(u) }} يوم متبقي
+              </div>
+            </div>
+          </td>
+          <td>
+            <div class="du-actions" *ngIf="u.role !== 'admin'">
+              <button class="du-btn ice" (click)="activate(u.id)" [disabled]="u.status==='active'" title="تفعيل">
+                <i class="fas fa-check"></i>
+              </button>
+              <button class="du-btn gold" (click)="openSuspendModal(u)" [disabled]="u.status==='suspended'" title="إيقاف مؤقت">
+                <i class="fas fa-clock"></i>
+              </button>
+              <button class="du-btn rose" (click)="ban(u.id)" [disabled]="u.status==='banned'" title="حظر نهائي">
+                <i class="fas fa-ban"></i>
+              </button>
+            </div>
+            <span *ngIf="u.role==='admin'" class="du-protected">محمي</span>
+          </td>
+        </tr>
+        <tr *ngIf="filteredUsers.length===0">
+          <td colspan="6" class="du-empty">لا توجد نتائج</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Suspend Modal -->
+<div class="du-modal-bg" *ngIf="suspendModal" (click)="suspendModal=false">
+  <div class="du-modal" (click)="$event.stopPropagation()">
+    <h3>إيقاف مؤقت — {{ suspendTarget?.name }}</h3>
+    <p>اختر مدة الإيقاف:</p>
+    <div class="du-days-opts">
+      <button *ngFor="let d of [1,3,7,14,30]" class="du-day-opt" [class.selected]="suspendDays===d" (click)="suspendDays=d">{{ d }} يوم</button>
+    </div>
+    <div class="du-modal-actions">
+      <button class="du-btn rose" style="padding:10px 20px" (click)="confirmSuspend()">
+        <i class="fas fa-clock"></i> تأكيد الإيقاف
+      </button>
+      <button class="du-btn ice" style="padding:10px 20px" (click)="suspendModal=false">إلغاء</button>
+    </div>
+  </div>
+</div>

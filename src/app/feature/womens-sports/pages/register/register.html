@@ -8,28 +8,72 @@
     <h2>إنشاء حسابك</h2>
     <p class="subtitle">انضم إلى مجتمع الرياضة النسائية</p>
 
-    <form>
+    <form (ngSubmit)="registerUser()">
 
       <label>الاسم الكامل</label>
-      <input type="text" placeholder="أدخل اسمك الكامل">
+      <input
+        type="text"
+        placeholder="أدخل اسمك الكامل"
+        [(ngModel)]="fullName"
+        name="fullName"
+      >
 
       <label>البريد الإلكتروني</label>
-      <input type="email" placeholder="أدخل بريدك الإلكتروني">
+      <input
+        type="email"
+        placeholder="أدخل بريدك الإلكتروني"
+        [(ngModel)]="email"
+        name="email"
+      >
 
       <label>كلمة المرور</label>
-      <input type="password" placeholder="أدخل كلمة المرور">
+
+      <div class="password-box">
+        <input
+          [type]="showPass ? 'text' : 'password'"
+          placeholder="أدخل كلمة المرور"
+          [(ngModel)]="password"
+          name="password"
+        >
+
+        <i
+          class="fa-solid"
+          [ngClass]="showPass ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showPass = !showPass"
+        ></i>
+      </div>
 
       <label>تأكيد كلمة المرور</label>
-      <input type="password" placeholder="أعد إدخال كلمة المرور">
 
-      <button type="submit">إنشاء حساب</button>
+      <div class="password-box">
+        <input
+          [type]="showConfirm ? 'text' : 'password'"
+          placeholder="أعد إدخال كلمة المرور"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+        >
+
+        <i
+          class="fa-solid"
+          [ngClass]="showConfirm ? 'fa-eye-slash' : 'fa-eye'"
+          (click)="showConfirm = !showConfirm"
+        ></i>
+      </div>
+
+      <button type="submit" [disabled]="loading">
+
+        <span *ngIf="!loading">إنشاء حساب</span>
+
+        <span *ngIf="loading" class="spinner"></span>
+
+      </button>
 
     </form>
 
-   <div class="auth-container">
-     <div class="login">هل لديك حساب؟</div>
-     <div class="btn-login" (click)="goToLogin()">تسجيل الدخول</div>
-</div>
+    <div class="auth-container">
+      <div class="login">هل لديك حساب؟</div>
+      <div class="btn-login" (click)="goToLogin()">تسجيل الدخول</div>
+    </div>
 
   </div>
 </div>

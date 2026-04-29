@@ -148,3 +148,19 @@
     font-size: 20px;
   }
 }
+.alert-block {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(212,102,122,.1); border: 1px solid rgba(212,102,122,.3);
+  border-radius: 12px; color: #D4667A; font-size: 14px; padding: 12px 16px;
+  margin-bottom: 14px;
+}
+
+.alert-flagged {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(201,169,110,.1); border: 1px solid rgba(201,169,110,.3);
+  border-radius: 12px; color: #C9A96E; font-size: 13px; padding: 12px 16px;
+  margin-bottom: 14px;
+  animation: fadeIn .3s ease;
+}
+
+@keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }

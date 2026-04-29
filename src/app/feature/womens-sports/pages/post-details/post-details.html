@@ -1,79 +1,62 @@
 <div class="container mt-5 mb-5" *ngIf="post">
-    <div class="back-home pb-4 cursor-pointer">
-            <i class="fa-solid fa-right-long"></i>
-            <a routerLink="/hero" class="btn-back text-decoration-none pe-2 text-black">الي الرئيسيه</a>
-    </div>
+  <div class="back-home pb-4 cursor-pointer">
+    <i class="fa-solid fa-right-long"></i>
+    <a routerLink="/hero" class="btn-back text-decoration-none pe-2 text-black">الي الرئيسيه</a>
+  </div>
+
   <div class="card shadow h-100">
-
     <img [src]="post.img" class="card-img-top">
-
     <div class="card-body">
-
       <span class="label-post">{{ post.category }}</span>
-
-      <p class="text-muted small mt-2">
-        <i class="fa-regular fa-calendar"></i>
-        {{ post.date }}
-      </p>
-
+      <p class="text-muted small mt-2"><i class="fa-regular fa-calendar"></i> {{ post.date }}</p>
       <h2 class="title-post mt-2 fs-2">{{ post.title }}</h2>
-
-      <p class="mt-3 text-muted lh-lg">
-        {{ post.desc }}
-      </p>
+      <p class="mt-3 text-muted lh-lg">{{ post.desc }}</p>
 
       <!-- Like -->
       <div class="d-flex align-items-center gap-4 mt-4">
-
         <div class="d-flex align-items-center gap-2 like-btn" (click)="likePost()">
-
-          <i class="fa-heart"
-             [ngClass]="post.liked ? 'fa-solid text-danger' : 'fa-regular'">
-          </i>
-
+          <i class="fa-heart" [ngClass]="post.liked ? 'fa-solid text-danger' : 'fa-regular'"></i>
           <span>{{ post.likeCount }}</span>
-
         </div>
-
         <div class="d-flex align-items-center gap-2 text-muted">
           <i class="fa-regular fa-comment"></i>
-          <span>{{ post.comments.length }}</span>
+          <span>{{ visibleComments.length }}</span>
         </div>
-
       </div>
 
       <hr>
 
-      <!-- Comment -->
-      <textarea class="form-control mb-3"
-                [(ngModel)]="newComment"
-                placeholder="اكتب تعليق...">
-      </textarea>
+      <!-- Blocked message -->
+      <div class="alert-block" *ngIf="isBlocked">
+        <i class="fas fa-ban"></i> {{ blockMessage }}
+      </div>
 
-      <button class="btn" (click)="addComment()">Add Comment</button>
+      <!-- Hate speech warning -->
+      <div class="alert-flagged" *ngIf="flaggedWarning">
+        <i class="fas fa-triangle-exclamation"></i>
+        تعليقك يحتوي على محتوى مخالف وتم حجبه. تكرار المخالفة قد يؤدي لإيقاف حسابك.
+      </div>
+
+      <!-- Comment box -->
+      <div *ngIf="!isBlocked">
+        <textarea class="form-control mb-3" [(ngModel)]="newComment" placeholder="اكتب تعليق..."></textarea>
+        <button class="btn" (click)="addComment()">إضافة تعليق</button>
+      </div>
 
       <!-- Comments -->
-      <div class="mt-4" *ngIf="post.comments.length > 0">
-
-        <div class="comment-box p-3 mb-3" *ngFor="let c of post.comments">
-
+      <div class="mt-4" *ngIf="visibleComments.length > 0">
+        <div class="comment-box p-3 mb-3" *ngFor="let c of visibleComments">
           <div class="d-flex gap-3">
-
             <img [src]="c.img" class="rounded-circle comment-user-img">
-
             <div>
               <h6>{{ c.user }}</h6>
               <small>{{ c.date }}</small>
               <p>{{ c.text }}</p>
             </div>
-
           </div>
-
         </div>
-
       </div>
 
     </div>
   </div>
-
 </div>

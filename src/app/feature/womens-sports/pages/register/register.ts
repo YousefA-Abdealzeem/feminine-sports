@@ -1,50 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [FormsModule, CommonModule],
   templateUrl: './register.html',
-  styleUrls: ['./register.css'],
+  styleUrl: './register.css',
 })
-export class Register implements OnInit {
+export class Register {
+
+  fullName = '';
+  email = '';
+  password = '';
+  confirmPassword = '';
+
+  showPass = false;
+  showConfirm = false;
+  loading = false;
 
   constructor(private router: Router) {}
-
-  ngOnInit(): void {
-    this.initRegisterForm();
-  }
 
   goToLogin() {
     this.router.navigate(['/login']);
   }
 
-  initRegisterForm() {
-    const regForm = document.querySelector('.card form') as HTMLFormElement;
+  registerUser() {
 
-    if (regForm) {
-      regForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const inputs = regForm.querySelectorAll('input') as NodeListOf<HTMLInputElement>;
-
-        const fullName = inputs[0].value;
-        const email = inputs[1].value;
-        const pass = inputs[2].value;
-        const confirmPass = inputs[3].value;
-
-        if (!fullName || !email || !pass) {
-          alert("من فضلك أكمل جميع البيانات");
-          return;
-        }
-
-        if (pass !== confirmPass) {
-          alert("كلمة المرور غير متطابقة");
-          return;
-        }
-
-        alert("تم إنشاء الحساب بنجاح");
-        this.router.navigate(['/login']);
-      });
+    if (!this.fullName || !this.email || !this.password || !this.confirmPassword) {
+      alert("من فضلك أكمل جميع البيانات");
+      return;
     }
+
+    if (this.password !== this.confirmPassword) {
+      alert("كلمة المرور غير متطابقة");
+      return;
+    }
+
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false;
+      alert("تم إنشاء الحساب بنجاح");
+      this.router.navigate(['/login']);
+    }, 1500);
   }
 }

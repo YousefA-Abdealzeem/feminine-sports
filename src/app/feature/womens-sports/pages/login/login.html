@@ -8,18 +8,33 @@
     <h2>HerPower</h2>
     <p class="subtitle">رياضة المرأة في مصر والعالم العربي</p>
 
-    <form>
+    <form (ngSubmit)="login()">
+
       <label>البريد الإلكتروني</label>
-      <input type="email" placeholder="ادخل بريدك الإلكتروني">
+      <input type="email" placeholder="ادخل بريدك الإلكتروني" [(ngModel)]="email" name="email" />
 
       <label>كلمة المرور</label>
-      <input type="password" placeholder="ادخل كلمة المرور">
+      <div class="password-box">
+        <input [type]="showPassword ? 'text' : 'password'"
+               placeholder="ادخل كلمة المرور"
+               [(ngModel)]="password" name="password" />
+        <i class="fa-solid" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'" (click)="togglePassword()"></i>
+      </div>
 
-      <button type="submit">تسجيل الدخول</button>
+      <!-- ✅ Forgot password link -->
+      <div class="forgot-row">
+        <a class="forgot-link" routerLink="/forgot-password">نسيت كلمة المرور؟</a>
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        <span *ngIf="!loading">تسجيل الدخول</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+
     </form>
 
     <p class="register">
-      ليس لديك حساب؟ <span>إنشاء حساب جديد</span>
+      ليس لديك حساب؟ <span (click)="goRegister()">إنشاء حساب جديد</span>
     </p>
 
   </div>

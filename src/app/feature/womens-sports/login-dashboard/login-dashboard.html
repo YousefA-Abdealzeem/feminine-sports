@@ -1,0 +1,82 @@
+<div class="ld-page">
+
+  <!-- Background particles -->
+  <div class="ld-bg">
+    <div class="ld-orb ld-orb-1"></div>
+    <div class="ld-orb ld-orb-2"></div>
+    <div class="ld-orb ld-orb-3"></div>
+  </div>
+
+  <div class="ld-card">
+
+    <!-- Logo -->
+    <div class="ld-logo">
+      <img src="/assets/images/logonavbar.png" alt="HerPower" />
+      <div class="ld-logo-text">
+        <span class="ld-her">Her</span><span class="ld-power">Power</span>
+      </div>
+      <p class="ld-tagline">لوحة تحكم المشرف</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="ld-divider"></div>
+
+    <!-- Form -->
+    <form (ngSubmit)="onLogin()" class="ld-form">
+
+      <div class="ld-field" [class.error]="emailError">
+        <label>البريد الإلكتروني</label>
+        <div class="ld-input-wrap">
+          <i class="fas fa-envelope ld-icon"></i>
+          <input
+            type="email"
+            placeholder="admin@herpower.com"
+            [(ngModel)]="email"
+            name="email"
+            (input)="emailError = false"
+          />
+        </div>
+        <span class="ld-err-msg" *ngIf="emailError">البريد مطلوب</span>
+      </div>
+
+      <div class="ld-field" [class.error]="passwordError">
+        <label>كلمة المرور</label>
+        <div class="ld-input-wrap">
+          <i class="fas fa-lock ld-icon"></i>
+          <input
+            [type]="showPass ? 'text' : 'password'"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            name="password"
+            (input)="passwordError = false"
+          />
+          <i
+            class="fas ld-eye"
+            [class.fa-eye]="!showPass"
+            [class.fa-eye-slash]="showPass"
+            (click)="showPass = !showPass"
+          ></i>
+        </div>
+        <span class="ld-err-msg" *ngIf="passwordError">كلمة المرور مطلوبة</span>
+      </div>
+
+      <div class="ld-wrong" *ngIf="wrongCreds">
+        <i class="fas fa-triangle-exclamation"></i>
+        بيانات الدخول غير صحيحة
+      </div>
+
+      <button type="submit" class="ld-btn" [class.loading]="isLoading">
+        <span *ngIf="!isLoading">دخول للوحة التحكم</span>
+        <span *ngIf="isLoading" class="ld-spinner"></span>
+      </button>
+
+    </form>
+
+    <p class="ld-back">
+      <a routerLink="/hero">
+        <i class="fas fa-arrow-right"></i> العودة للموقع
+      </a>
+    </p>
+
+  </div>
+</div>

@@ -1,1 +1,100 @@
-<p>dashboard-home works!</p>
+<div class="dh-wrap">
+
+  <!-- Header -->
+  <div class="dh-header">
+    <div>
+      <h1 class="dh-title">مرحباً، Admin 👋</h1>
+      <p class="dh-sub">هذه نظرة عامة على منصة HerPower</p>
+    </div>
+    <div class="dh-date">
+      <i class="fas fa-calendar-days"></i>
+      {{ today }}
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="dh-stats">
+
+    <div class="dh-stat-card rose">
+      <div class="dh-stat-icon"><i class="fas fa-newspaper"></i></div>
+      <div class="dh-stat-body">
+        <div class="dh-stat-val">{{ totalPosts }}</div>
+        <div class="dh-stat-lbl">إجمالي البوستات</div>
+      </div>
+      <div class="dh-stat-glow"></div>
+    </div>
+
+    <div class="dh-stat-card ice">
+      <div class="dh-stat-icon"><i class="fas fa-users"></i></div>
+      <div class="dh-stat-body">
+        <div class="dh-stat-val">1</div>
+        <div class="dh-stat-lbl">المستخدمين</div>
+      </div>
+      <div class="dh-stat-glow"></div>
+    </div>
+
+    <div class="dh-stat-card gold">
+      <div class="dh-stat-icon"><i class="fas fa-heart"></i></div>
+      <div class="dh-stat-body">
+        <div class="dh-stat-val">{{ totalLikes }}</div>
+        <div class="dh-stat-lbl">الإعجابات</div>
+      </div>
+      <div class="dh-stat-glow"></div>
+    </div>
+
+    <div class="dh-stat-card dark">
+      <div class="dh-stat-icon"><i class="fas fa-comments"></i></div>
+      <div class="dh-stat-body">
+        <div class="dh-stat-val">{{ totalComments }}</div>
+        <div class="dh-stat-lbl">التعليقات</div>
+      </div>
+      <div class="dh-stat-glow"></div>
+    </div>
+
+  </div>
+
+  <!-- Two columns -->
+  <div class="dh-grid">
+
+    <!-- Recent Posts -->
+    <div class="dh-card">
+      <div class="dh-card-header">
+        <h3><i class="fas fa-clock-rotate-left"></i> آخر البوستات</h3>
+        <a routerLink="/dashboard/posts" class="dh-see-all">عرض الكل</a>
+      </div>
+      <div class="dh-posts-list">
+        <div class="dh-post-row" *ngFor="let p of recentPosts">
+          <img [src]="p.img" class="dh-post-thumb" />
+          <div class="dh-post-info">
+            <div class="dh-post-title">{{ p.title }}</div>
+            <div class="dh-post-meta">
+              <span class="dh-badge">{{ p.category }}</span>
+              <span><i class="fas fa-heart"></i> {{ p.likeCount }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Distribution -->
+    <div class="dh-card">
+      <div class="dh-card-header">
+        <h3><i class="fas fa-chart-bar"></i> توزيع التصنيفات</h3>
+      </div>
+      <div class="dh-cats">
+        <div class="dh-cat-row" *ngFor="let cat of categories">
+          <div class="dh-cat-label">
+            <span>{{ cat.icon }}</span>
+            <span>{{ cat.name }}</span>
+          </div>
+          <div class="dh-cat-bar-wrap">
+            <div class="dh-cat-bar" [style.width]="cat.pct + '%'" [class]="cat.color"></div>
+          </div>
+          <span class="dh-cat-count">{{ cat.count }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

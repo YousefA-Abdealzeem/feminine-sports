@@ -1,0 +1,68 @@
+<div class="dc-wrap">
+
+  <div class="dc-header">
+    <div>
+      <h2 class="dc-title"><i class="fas fa-flag"></i> التعليقات المُبلَّغ عنها</h2>
+      <p class="dc-sub">{{ flagged.length }} تعليق يحتوي على محتوى مخالف</p>
+    </div>
+  </div>
+
+  <!-- Empty state -->
+  <div class="dc-empty" *ngIf="flagged.length === 0">
+    <i class="fas fa-shield-check"></i>
+    <p>لا توجد تعليقات مشبوهة 🎉</p>
+  </div>
+
+  <!-- Cards -->
+  <div class="dc-list" *ngIf="flagged.length > 0">
+    <div class="dc-card" *ngFor="let c of flagged">
+
+      <!-- Header -->
+      <div class="dc-card-head">
+        <div class="dc-user">
+          <img [src]="c.img" class="dc-avatar" />
+          <div>
+            <div class="dc-user-name">{{ c.user }}</div>
+            <div class="dc-user-date">{{ c.date }}</div>
+          </div>
+        </div>
+        <span class="dc-post-badge">📰 {{ c.postTitle }}</span>
+      </div>
+
+      <!-- Raw comment with highlights -->
+      <div class="dc-raw-text" [innerHTML]="highlight(c.rawText)"></div>
+
+      <!-- Violations badge -->
+      <div class="dc-violations">
+        <i class="fas fa-exclamation-triangle"></i>
+        المستخدم لديه <strong>{{ getUserViolations(c.userId) }}</strong> مخالفة
+        &nbsp;—&nbsp;
+        الحالة:
+        <span class="dc-status-badge" [class]="getUserStatus(c.userId)">
+          {{ getStatusLabel(c.userId) }}
+        </span>
+      </div>
+
+      <!-- Actions -->
+      <div class="dc-actions">
+        <button class="dc-btn delete" (click)="deleteComment(c.postId, c.id)">
+          <i class="fas fa-trash"></i> حذف التعليق
+        </button>
+        <button class="dc-btn suspend" (click)="suspendUser(c.userId, 3)"
+                [disabled]="getUserStatus(c.userId) !== 'active'">
+          <i class="fas fa-clock"></i> إيقاف 3 أيام
+        </button>
+        <button class="dc-btn ban" (click)="banUser(c.userId)"
+                [disabled]="getUserStatus(c.userId) === 'banned'">
+          <i class="fas fa-ban"></i> حظر نهائي
+        </button>
+        <button class="dc-btn restore" (click)="activateUser(c.userId)"
+                [disabled]="getUserStatus(c.userId) === 'active'">
+          <i class="fas fa-rotate-left"></i> رفع الإيقاف
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

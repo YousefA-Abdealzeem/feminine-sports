@@ -1,0 +1,96 @@
+<div class="dl-root">
+
+  <!-- Mobile dark overlay -->
+  <div class="dl-overlay" [class.visible]="mobileOpen" (click)="mobileOpen = false"></div>
+
+  <!-- Sidebar -->
+  <aside class="dl-sidebar"
+         [class.dl-collapsed]="collapsed"
+         [class.dl-mobile-open]="mobileOpen">
+
+    <div class="dl-brand">
+      <img src="/assets/images/logonavbar.png" alt="logo" class="dl-logo-img" />
+      <div class="dl-brand-text" *ngIf="showLabels">
+        <span class="dl-her">Her</span><span class="dl-pow">Power</span>
+        <small>Admin Panel</small>
+      </div>
+    </div>
+
+    <nav class="dl-nav">
+      <a class="dl-link" routerLink="/dashboard" routerLinkActive="active"
+         [routerLinkActiveOptions]="{exact:true}" (click)="onNavClick()">
+        <i class="fas fa-chart-pie"></i>
+        <span *ngIf="showLabels">الرئيسية</span>
+      </a>
+      <a class="dl-link" routerLink="/dashboard/posts" routerLinkActive="active" (click)="onNavClick()">
+        <i class="fas fa-newspaper"></i>
+        <span *ngIf="showLabels">البوستات</span>
+      </a>
+      <a class="dl-link" routerLink="/dashboard/users" routerLinkActive="active" (click)="onNavClick()">
+        <i class="fas fa-users"></i>
+        <span *ngIf="showLabels">المستخدمين</span>
+      </a>
+      <a class="dl-link dl-link-badge" routerLink="/dashboard/comments" routerLinkActive="active" (click)="onNavClick()">
+        <i class="fas fa-flag"></i>
+        <span *ngIf="showLabels">التعليقات المبلغة</span>
+        <span class="dl-badge" *ngIf="flaggedCount > 0 && showLabels">{{ flaggedCount }}</span>
+        <span class="dl-dot"   *ngIf="flaggedCount > 0 && !showLabels"></span>
+      </a>
+      <a class="dl-link" routerLink="/dashboard/settings" routerLinkActive="active" (click)="onNavClick()">
+        <i class="fas fa-gear"></i>
+        <span *ngIf="showLabels">الإعدادات</span>
+      </a>
+    </nav>
+
+    <div class="dl-bottom">
+      <a class="dl-link dl-site-link" routerLink="/hero" (click)="onNavClick()">
+        <i class="fas fa-arrow-up-right-from-square"></i>
+        <span *ngIf="showLabels">الموقع الرئيسي</span>
+      </a>
+      <button class="dl-link dl-logout" (click)="logout()">
+        <i class="fas fa-right-from-bracket"></i>
+        <span *ngIf="showLabels">تسجيل الخروج</span>
+      </button>
+    </div>
+
+    <!-- Collapse button — desktop only -->
+    <button class="dl-collapse-btn" (click)="toggleDesktop()" *ngIf="!isMobile">
+      <i class="fas" [class.fa-chevron-right]="collapsed" [class.fa-chevron-left]="!collapsed"></i>
+    </button>
+
+  </aside>
+
+  <!-- Main -->
+  <main class="dl-main" [class.dl-main-collapsed]="collapsed && !isMobile">
+
+    <header class="dl-topbar">
+      <div class="dl-topbar-left">
+        <button class="dl-hamburger" (click)="toggleSidebar()">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="dl-breadcrumb">
+          <i class="fas fa-shield-halved"></i>
+          <span>لوحة التحكم</span>
+        </div>
+      </div>
+      <div class="dl-topbar-right">
+        <div class="dl-notif" *ngIf="flaggedCount > 0" routerLink="/dashboard/comments">
+          <i class="fas fa-bell"></i>
+          <span class="dl-notif-count">{{ flaggedCount }}</span>
+        </div>
+        <div class="dl-admin-badge">
+          <img src="https://i.pravatar.cc/150?img=10" alt="admin" />
+          <div class="dl-admin-info" *ngIf="!isMobile">
+            <div class="dl-admin-name">Admin</div>
+            <div class="dl-admin-role">HerPower</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="dl-content">
+      <router-outlet />
+    </div>
+
+  </main>
+</div>

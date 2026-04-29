@@ -1,1 +1,113 @@
-<p>dashboard-posts works!</p>
+<div class="dp-wrap">
+
+  <div class="dp-header">
+    <div>
+      <h2 class="dp-title"><i class="fas fa-newspaper"></i> إدارة البوستات</h2>
+      <p class="dp-sub">{{ posts().length }} بوست في المنصة</p>
+    </div>
+    <div class="dp-header-actions">
+      <div class="dp-search-wrap">
+        <i class="fas fa-search dp-search-icon"></i>
+        <input class="dp-search" type="text" placeholder="ابحث..." [(ngModel)]="searchTerm" />
+      </div>
+      <button class="dp-add-btn" (click)="openModal()">
+        <i class="fas fa-plus"></i> بوست جديد
+      </button>
+    </div>
+  </div>
+
+  <div class="dp-table-wrap">
+    <table class="dp-table">
+      <thead>
+        <tr>
+          <th>#</th><th>الصورة</th><th>العنوان</th>
+          <th>التصنيف</th><th>❤</th><th>💬</th><th>التاريخ</th><th>إجراءات</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredPosts; let i = index" class="dp-row">
+          <td class="dp-num">{{ i+1 }}</td>
+          <td><img [src]="p.img" class="dp-img" /></td>
+          <td class="dp-post-title">{{ p.title }}</td>
+          <td><span class="dp-badge" [class]="badgeClass(p.category)">{{ p.category }}</span></td>
+          <td class="dp-center dp-rose">{{ p.likeCount }}</td>
+          <td class="dp-center dp-ice">{{ p.comments.length }}</td>
+          <td class="dp-date">{{ p.date }}</td>
+          <td>
+            <div class="dp-row-actions">
+              <button class="dp-ico-btn edit" (click)="openModal(p)" title="تعديل"><i class="fas fa-pen"></i></button>
+              <button class="dp-ico-btn delete" (click)="confirmDelete(p)" title="حذف"><i class="fas fa-trash"></i></button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="filteredPosts.length===0">
+          <td colspan="8" class="dp-empty">لا توجد نتائج</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="dp-modal-bg" *ngIf="showModal" (click)="closeModal()">
+  <div class="dp-modal" (click)="$event.stopPropagation()">
+
+    <div class="dp-modal-head">
+      <h3>{{ editMode ? 'تعديل البوست' : 'إضافة بوست جديد' }}</h3>
+      <button class="dp-modal-close" (click)="closeModal()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <div class="dp-modal-body">
+      <div class="dp-field">
+        <label>العنوان</label>
+        <input type="text" [(ngModel)]="form.title" placeholder="عنوان البوست" />
+      </div>
+      <div class="dp-field">
+        <label>التصنيف</label>
+        <select [(ngModel)]="form.category">
+          <option value="كرة القدم">كرة القدم ⚽</option>
+          <option value="السباحة">السباحة 🏊‍♀️</option>
+          <option value="السلة">كرة السلة 🏀</option>
+          <option value="الجري">الجري 🏃‍♀️</option>
+        </select>
+      </div>
+      <div class="dp-field">
+        <label>الوصف</label>
+        <textarea [(ngModel)]="form.desc" rows="3" placeholder="وصف البوست..."></textarea>
+      </div>
+      <div class="dp-field">
+        <label>رابط الصورة</label>
+        <input type="text" [(ngModel)]="form.img" placeholder="/assets/images/..." />
+      </div>
+      <div class="dp-field">
+        <label>التاريخ</label>
+        <input type="date" [(ngModel)]="form.date" />
+      </div>
+    </div>
+
+    <div class="dp-modal-foot">
+      <button class="dp-modal-btn save" (click)="savePost()" [disabled]="!form.title || !form.desc">
+        <i class="fas" [class.fa-save]="editMode" [class.fa-plus]="!editMode"></i>
+        {{ editMode ? 'حفظ التعديلات' : 'إضافة البوست' }}
+      </button>
+      <button class="dp-modal-btn cancel" (click)="closeModal()">إلغاء</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Delete Confirm -->
+<div class="dp-modal-bg" *ngIf="deleteTarget" (click)="deleteTarget=null">
+  <div class="dp-modal dp-confirm" (click)="$event.stopPropagation()">
+    <i class="fas fa-triangle-exclamation dp-warn-icon"></i>
+    <h3>هل تريد حذف هذا البوست؟</h3>
+    <p class="dp-confirm-name">{{ deleteTarget?.title }}</p>
+    <div class="dp-modal-foot">
+      <button class="dp-modal-btn save" style="background:rgba(212,102,122,.2);color:#D4667A;border-color:rgba(212,102,122,.4)" (click)="doDelete()">
+        <i class="fas fa-trash"></i> نعم، احذف
+      </button>
+      <button class="dp-modal-btn cancel" (click)="deleteTarget=null">إلغاء</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,129 @@
+<div class="ds-wrap">
+
+  <div class="ds-header">
+    <h2 class="ds-title"><i class="fas fa-gear"></i> إعدادات الأدمن</h2>
+    <p class="ds-sub">تعديل بياناتك الشخصية وإعدادات الحساب</p>
+  </div>
+
+  <div class="ds-grid">
+
+    <!-- Profile Card -->
+    <div class="ds-card">
+      <div class="ds-card-head"><i class="fas fa-user-circle"></i> الملف الشخصي</div>
+
+      <div class="ds-avatar-section">
+        <img [src]="form.avatar" class="ds-big-avatar" />
+        <div>
+          <div class="ds-admin-name">{{ form.name }}</div>
+          <div class="ds-admin-role">مشرف المنصة</div>
+          <div class="ds-badge-admin"><i class="fas fa-shield-halved"></i> Admin</div>
+        </div>
+      </div>
+
+      <div class="ds-fields">
+        <div class="ds-field">
+          <label>الاسم</label>
+          <input type="text" [(ngModel)]="form.name" placeholder="اسمك الكامل" />
+        </div>
+        <div class="ds-field">
+          <label>البريد الإلكتروني</label>
+          <input type="email" [(ngModel)]="form.email" placeholder="البريد" />
+        </div>
+        <div class="ds-field">
+          <label>رقم الهاتف</label>
+          <input type="tel" [(ngModel)]="form.phone" placeholder="01xxxxxxxxx" />
+        </div>
+        <div class="ds-field">
+          <label>نبذة شخصية</label>
+          <textarea [(ngModel)]="form.bio" rows="3" placeholder="نبذة عنك..."></textarea>
+        </div>
+        <div class="ds-field">
+          <label>رابط الصورة الشخصية</label>
+          <input type="text" [(ngModel)]="form.avatar" placeholder="https://..." />
+        </div>
+      </div>
+
+      <button class="ds-btn save" (click)="saveProfile()" [disabled]="saved">
+        <i class="fas" [class.fa-check]="saved" [class.fa-save]="!saved"></i>
+        {{ saved ? 'تم الحفظ!' : 'حفظ البيانات' }}
+      </button>
+
+    </div>
+
+    <!-- Password Card -->
+    <div class="ds-card">
+      <div class="ds-card-head"><i class="fas fa-lock"></i> تغيير كلمة المرور</div>
+
+      <div class="ds-fields">
+        <div class="ds-field">
+          <label>كلمة المرور الحالية</label>
+          <div class="ds-input-wrap">
+            <input [type]="showOld?'text':'password'" [(ngModel)]="passForm.old" placeholder="••••••••" />
+            <i class="fas ds-eye" [class.fa-eye]="!showOld" [class.fa-eye-slash]="showOld" (click)="showOld=!showOld"></i>
+          </div>
+        </div>
+        <div class="ds-field">
+          <label>كلمة المرور الجديدة</label>
+          <div class="ds-input-wrap">
+            <input [type]="showNew?'text':'password'" [(ngModel)]="passForm.new" placeholder="••••••••" />
+            <i class="fas ds-eye" [class.fa-eye]="!showNew" [class.fa-eye-slash]="showNew" (click)="showNew=!showNew"></i>
+          </div>
+        </div>
+        <div class="ds-field">
+          <label>تأكيد كلمة المرور</label>
+          <div class="ds-input-wrap">
+            <input [type]="showConf?'text':'password'" [(ngModel)]="passForm.confirm" placeholder="••••••••" />
+            <i class="fas ds-eye" [class.fa-eye]="!showConf" [class.fa-eye-slash]="showConf" (click)="showConf=!showConf"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="ds-alert error" *ngIf="passError">
+        <i class="fas fa-circle-exclamation"></i> {{ passError }}
+      </div>
+      <div class="ds-alert success" *ngIf="passSuccess">
+        <i class="fas fa-check-circle"></i> تم تغيير كلمة المرور بنجاح!
+      </div>
+
+      <button class="ds-btn save" (click)="changePassword()">
+        <i class="fas fa-key"></i> تغيير كلمة المرور
+      </button>
+
+      <!-- Site settings -->
+      <div class="ds-card-head" style="margin-top:28px"><i class="fas fa-sliders"></i> إعدادات المنصة</div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">فلتر الكلام المسيء</div>
+          <div class="ds-toggle-sub">حجب التعليقات التي تحتوي على محتوى مخالف</div>
+        </div>
+        <button class="ds-toggle" [class.on]="settings.hateSpeechFilter" (click)="settings.hateSpeechFilter=!settings.hateSpeechFilter">
+          <span class="ds-toggle-knob"></span>
+        </button>
+      </div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">الإيقاف التلقائي</div>
+          <div class="ds-toggle-sub">إيقاف المستخدم تلقائياً عند 3 مخالفات</div>
+        </div>
+        <button class="ds-toggle" [class.on]="settings.autoSuspend" (click)="settings.autoSuspend=!settings.autoSuspend">
+          <span class="ds-toggle-knob"></span>
+        </button>
+      </div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">السماح بالتعليقات</div>
+          <div class="ds-toggle-sub">السماح للمستخدمين بالتعليق على البوستات</div>
+        </div>
+        <button class="ds-toggle" [class.on]="settings.allowComments" (click)="settings.allowComments=!settings.allowComments">
+          <span class="ds-toggle-knob"></span>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
