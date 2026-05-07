@@ -11,12 +11,31 @@
     <div class="ds-card">
       <div class="ds-card-head"><i class="fas fa-user-circle"></i> الملف الشخصي</div>
 
+      <!-- ✅ Avatar مع file picker -->
       <div class="ds-avatar-section">
-        <img [src]="form.avatar" class="ds-big-avatar" />
+
+        <div class="ds-avatar-picker" (click)="triggerAvatarInput()" title="اضغط لتغيير الصورة">
+          <img [src]="form.avatar" class="ds-big-avatar" />
+          <div class="ds-avatar-overlay">
+            <i class="fas fa-camera"></i>
+          </div>
+        </div>
+
+        <!-- Hidden file input -->
+        <input
+          #avatarInput
+          type="file"
+          accept="image/*"
+          style="display:none"
+          (change)="onAvatarSelected($event)" />
+
         <div>
           <div class="ds-admin-name">{{ form.name }}</div>
           <div class="ds-admin-role">مشرف المنصة</div>
           <div class="ds-badge-admin"><i class="fas fa-shield-halved"></i> Admin</div>
+          <button class="ds-change-photo-btn" type="button" (click)="triggerAvatarInput()">
+            <i class="fas fa-upload"></i> تغيير الصورة
+          </button>
         </div>
       </div>
 
@@ -36,10 +55,6 @@
         <div class="ds-field">
           <label>نبذة شخصية</label>
           <textarea [(ngModel)]="form.bio" rows="3" placeholder="نبذة عنك..."></textarea>
-        </div>
-        <div class="ds-field">
-          <label>رابط الصورة الشخصية</label>
-          <input type="text" [(ngModel)]="form.avatar" placeholder="https://..." />
         </div>
       </div>
 

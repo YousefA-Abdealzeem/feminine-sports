@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UsersService } from 'app/core/services/users';
@@ -11,46 +11,85 @@ import { UsersService } from 'app/core/services/users';
 })
 export class DashboardSettings {
 
+  @ViewChild('avatarInput') avatarInput!: ElementRef<HTMLInputElement>;
+
   constructor(private usersService: UsersService) {
     const admin = usersService.getUserById(1);
     if (admin) {
-      this.form = { name: admin.name, email: admin.email, phone: admin.phone||'', bio: admin.bio||'', avatar: admin.avatar };
+      this.form = {
+        name:   admin.name,
+        email:  admin.email,
+        phone:  admin.phone  || '',
+        bio:    admin.bio    || '',
+        avatar: admin.avatar
+      };
     }
   }
 
-  form = { name:'Admin HerPower', email:'admin@herpower.com', phone:'01000000000', bio:'مشرف المنصة', avatar:'https://i.pravatar.cc/150?img=10' };
+  form = {
+    name:   'Admin HerPower',
+    email:  'admin@herpower.com',
+    phone:  '01000000000',
+    bio:    'مشرف المنصة',
+    avatar: 'https://i.pravatar.cc/150?img=10'
+  };
 
-  passForm = { old:'', new:'', confirm:'' };
-  showOld  = false;
-  showNew  = false;
-  showConf = false;
+  passForm    = { old: '', new: '', confirm: '' };
+  showOld     = false;
+  showNew     = false;
+  showConf    = false;
   passError   = '';
   passSuccess = false;
-  saved = false;
+  saved       = false;
+  settings    = { hateSpeechFilter: true, autoSuspend: true, allowComments: true };
 
-  settings = { hateSpeechFilter: true, autoSuspend: true, allowComments: true };
-
-  // كلمة المرور الحالية (في تطبيق حقيقي من الـ backend)
   private currentPass = 'herpower123';
+
+  /** يفتح file picker لاختيار صورة الأفاتار */
+  triggerAvatarInput(): void {
+    this.avatarInput?.nativeElement?.click();
+  }
+
+  /** يحوّل الصورة المختارة لـ base64 */
+  onAvatarSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+
+    if (file.size > 5 * 1024 * 1024) {
+      alert('حجم الصورة كبير جداً، الحد الأقصى 5MB');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      this.form.avatar = e.target?.result as string;
+    };
+    reader.readAsDataURL(file);
+
+    (event.target as HTMLInputElement).value = '';
+  }
 
   saveProfile(): void {
     this.usersService.updateProfile(1, {
-      name: this.form.name, email: this.form.email,
-      phone: this.form.phone, bio: this.form.bio, avatar: this.form.avatar
+      name:   this.form.name,
+      email:  this.form.email,
+      phone:  this.form.phone,
+      bio:    this.form.bio,
+      avatar: this.form.avatar
     });
     this.saved = true;
     setTimeout(() => this.saved = false, 2500);
   }
 
   changePassword(): void {
-    this.passError = '';
+    this.passError   = '';
     this.passSuccess = false;
-    if (!this.passForm.old) { this.passError = 'أدخل كلمة المرور الحالية'; return; }
-    if (this.passForm.old !== this.currentPass) { this.passError = 'كلمة المرور الحالية غير صحيحة'; return; }
-    if (this.passForm.new.length < 6) { this.passError = 'كلمة المرور الجديدة يجب أن تكون 6 أحرف على الأقل'; return; }
+    if (!this.passForm.old)                          { this.passError = 'أدخل كلمة المرور الحالية'; return; }
+    if (this.passForm.old !== this.currentPass)      { this.passError = 'كلمة المرور الحالية غير صحيحة'; return; }
+    if (this.passForm.new.length < 6)               { this.passError = 'كلمة المرور الجديدة 6 أحرف على الأقل'; return; }
     if (this.passForm.new !== this.passForm.confirm) { this.passError = 'كلمة المرور غير متطابقة'; return; }
     this.currentPass = this.passForm.new;
-    this.passForm    = { old:'', new:'', confirm:'' };
+    this.passForm    = { old: '', new: '', confirm: '' };
     this.passSuccess = true;
     setTimeout(() => this.passSuccess = false, 3000);
   }

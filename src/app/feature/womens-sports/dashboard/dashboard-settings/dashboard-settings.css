@@ -106,3 +106,68 @@
   .ds-toggle-label { font-size: 13px; }
   .ds-title { font-size: 17px; }
 }
+
+/* ===== AVATAR PICKER ===== */
+.ds-avatar-picker {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  cursor: pointer;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.ds-big-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid rgba(201,169,110,0.4);
+  display: block;
+  transition: filter 0.25s;
+}
+
+.ds-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(0,0,0,0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 20px;
+  opacity: 0;
+  transition: opacity 0.25s, background 0.25s;
+}
+
+.ds-avatar-picker:hover .ds-avatar-overlay {
+  opacity: 1;
+  background: rgba(0,0,0,0.55);
+}
+.ds-avatar-picker:hover .ds-big-avatar {
+  filter: brightness(0.75);
+}
+
+/* زرار تغيير الصورة النصي */
+.ds-change-photo-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(91,168,192,0.3);
+  background: rgba(91,168,192,0.08);
+  color: #5BA8C0;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: 0.2s;
+}
+.ds-change-photo-btn:hover {
+  background: rgba(91,168,192,0.2);
+  border-color: rgba(91,168,192,0.6);
+}

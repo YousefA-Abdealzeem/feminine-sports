@@ -49,7 +49,7 @@
 
 </div>
 
-<!-- Add/Edit Modal -->
+<!-- ===== Add/Edit Modal ===== -->
 <div class="dp-modal-bg" *ngIf="showModal" (click)="closeModal()">
   <div class="dp-modal" (click)="$event.stopPropagation()">
 
@@ -59,10 +59,14 @@
     </div>
 
     <div class="dp-modal-body">
+
+      <!-- Title -->
       <div class="dp-field">
         <label>العنوان</label>
         <input type="text" [(ngModel)]="form.title" placeholder="عنوان البوست" />
       </div>
+
+      <!-- Category -->
       <div class="dp-field">
         <label>التصنيف</label>
         <select [(ngModel)]="form.category">
@@ -72,18 +76,60 @@
           <option value="الجري">الجري 🏃‍♀️</option>
         </select>
       </div>
+
+      <!-- Description -->
       <div class="dp-field">
         <label>الوصف</label>
         <textarea [(ngModel)]="form.desc" rows="3" placeholder="وصف البوست..."></textarea>
       </div>
+
+      <!-- ✅ Image Upload — file picker بدل رابط -->
       <div class="dp-field">
-        <label>رابط الصورة</label>
-        <input type="text" [(ngModel)]="form.img" placeholder="/assets/images/..." />
+        <label>صورة البوست</label>
+
+        <!-- Preview + click to change -->
+        <div class="dp-img-picker" (click)="triggerImgInput()" [class.has-img]="form.img">
+          <img *ngIf="form.img" [src]="form.img" class="dp-img-preview" />
+          <div class="dp-img-placeholder" *ngIf="!form.img">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <span>اضغط لاختيار صورة</span>
+            <small>JPG, PNG, WEBP — حجم أقصى 5MB</small>
+          </div>
+          <div class="dp-img-overlay" *ngIf="form.img">
+            <i class="fas fa-camera"></i>
+            <span>تغيير الصورة</span>
+          </div>
+        </div>
+
+        <!-- Hidden file input -->
+        <input
+          #imgInput
+          type="file"
+          accept="image/*"
+          style="display:none"
+          (change)="onImageSelected($event)" />
+
+        <!-- رابط يدوي كـ fallback -->
+        <div class="dp-img-url-toggle">
+          <button type="button" class="dp-url-btn" (click)="showUrlInput = !showUrlInput">
+            <i class="fas" [class.fa-link]="!showUrlInput" [class.fa-times]="showUrlInput"></i>
+            {{ showUrlInput ? 'إخفاء رابط URL' : 'أو أدخل رابط URL' }}
+          </button>
+        </div>
+
+        <input *ngIf="showUrlInput"
+               type="text"
+               class="dp-url-input"
+               [(ngModel)]="form.img"
+               placeholder="https://... أو /assets/images/..." />
       </div>
+
+      <!-- Date -->
       <div class="dp-field">
         <label>التاريخ</label>
         <input type="date" [(ngModel)]="form.date" />
       </div>
+
     </div>
 
     <div class="dp-modal-foot">
@@ -104,7 +150,9 @@
     <h3>هل تريد حذف هذا البوست؟</h3>
     <p class="dp-confirm-name">{{ deleteTarget?.title }}</p>
     <div class="dp-modal-foot">
-      <button class="dp-modal-btn save" style="background:rgba(212,102,122,.2);color:#D4667A;border-color:rgba(212,102,122,.4)" (click)="doDelete()">
+      <button class="dp-modal-btn save"
+              style="background:rgba(212,102,122,.2);color:#D4667A;border-color:rgba(212,102,122,.4)"
+              (click)="doDelete()">
         <i class="fas fa-trash"></i> نعم، احذف
       </button>
       <button class="dp-modal-btn cancel" (click)="deleteTarget=null">إلغاء</button>
