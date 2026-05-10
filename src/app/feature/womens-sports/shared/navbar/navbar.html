@@ -31,10 +31,18 @@
       </div>
     </div>
 
-    <!-- Toggle button -->
-    <button class="toggle" (click)="toggleNavbar()">
-      <i class="fas fa-bars" [class.fa-times]="isOpen"></i>
-    </button>
+<!-- Toggle button -->
+<button
+  class="toggle"
+  [class.active]="isOpen"
+  (click)="toggleNavbar()"
+>
+  <i
+    class="fas"
+    [class.fa-bars]="!isOpen"
+    [class.fa-times]="isOpen">
+  </i>
+</button>
 
   </div>
 

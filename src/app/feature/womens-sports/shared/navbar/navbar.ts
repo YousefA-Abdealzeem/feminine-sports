@@ -66,4 +66,17 @@ export class Navbar {
       navbar?.classList.remove('scrolled');
     }
   }
+
+  @HostListener('document:click', ['$event'])
+closeMenuOnOutside(event: Event) {
+  const clickedElement = event.target as HTMLElement;
+
+  if (
+    this.isOpen &&
+    !clickedElement.closest('.menu') &&
+    !clickedElement.closest('.toggle')
+  ) {
+    this.isOpen = false;
+  }
+}
 }

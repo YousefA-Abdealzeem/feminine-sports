@@ -1,5 +1,5 @@
 .navbar-main {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 1000;
 
@@ -212,6 +212,20 @@
     display: block;
     order: 1;
     z-index: 3;
+
+    position: relative;
+
+    transition: 0.3s ease;
+  }
+
+    .toggle.active {
+    position: absolute;
+
+    left: 18px;
+
+    top: 50px;
+
+    z-index: 9999;
   }
 
   /* logo في النص تمامًا */
