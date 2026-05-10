@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { PostsService } from 'app/core/services/posts';
@@ -9,16 +9,32 @@ import { PostsService } from 'app/core/services/posts';
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css',
 })
-export class DashboardLayout implements OnInit {
+export class DashboardLayout implements OnInit, AfterViewInit {
   collapsed  = false;   // desktop: icon-only
   mobileOpen = false;   // mobile/tablet: sidebar open
   isMobile   = false;
+
+  @ViewChild('sidebar', { static: true }) sidebarRef!: ElementRef<HTMLElement>;
 
   constructor(private router: Router, public postsService: PostsService) {}
 
   ngOnInit(): void {
     if (!localStorage.getItem('isAdmin')) this.router.navigate(['/login-dashboard']);
     this.onResize();
+  }
+
+  ngAfterViewInit(): void {
+    const sidebar = this.sidebarRef.nativeElement;
+    sidebar.addEventListener('wheel', (e: WheelEvent) => {
+      const el = sidebar;
+      const atTop    = el.scrollTop === 0 && e.deltaY < 0;
+      const atBottom = el.scrollTop + el.clientHeight >= el.scrollHeight && e.deltaY > 0;
+      if (atTop || atBottom) e.preventDefault();
+    }, { passive: false });
+
+    sidebar.addEventListener('touchmove', (e: TouchEvent) => {
+      e.stopPropagation();
+    }, { passive: true });
   }
 
   /** هل يظهر النص بجانب الأيقونة؟ */
