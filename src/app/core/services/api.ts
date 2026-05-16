@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export const API_BASE = 'https://qualmishly-marlitic-ally.ngrok-free.dev/api';
+export const API_BASE = 'http://womensports-api.runasp.net/api';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
