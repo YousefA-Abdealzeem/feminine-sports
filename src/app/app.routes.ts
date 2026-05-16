@@ -20,6 +20,8 @@ import { DashboardUsers }    from './feature/womens-sports/dashboard/dashboard-u
 import { DashboardComments } from './feature/womens-sports/dashboard/dashboard-comments/dashboard-comments';
 import { DashboardSettings } from './feature/womens-sports/dashboard/dashboard-settings/dashboard-settings';
 
+import { authGuard, adminGuard } from './core/guards/auth.guard';
+
 export const routes: Routes = [
 
   { path: '', component: LoadingScreen },
@@ -38,7 +40,7 @@ export const routes: Routes = [
       { path: 'about',        component: About       },
       { path: 'terms',        component: Terms       },
       { path: 'contact',      component: Contact     },
-      { path: 'profile',      component: Profile     },
+      { path: 'profile',      component: Profile,    canActivate: [authGuard] },
       { path: 'post-details', component: PostDetails },
     ]
   },
@@ -46,6 +48,7 @@ export const routes: Routes = [
   {
     path: 'dashboard',
     component: DashboardLayout,
+    canActivate: [adminGuard],
     children: [
       { path: '',         component: DashboardHome     },
       { path: 'posts',    component: DashboardPosts    },

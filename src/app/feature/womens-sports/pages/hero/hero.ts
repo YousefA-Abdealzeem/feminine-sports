@@ -13,28 +13,39 @@ import { FilterService } from 'app/core/services/filter';
 })
 export class Hero implements OnInit {
 
-  posts: any[] = [];
-
   constructor(
-    private postsService: PostsService,
-    public filterService: FilterService
+    public PostsService: PostsService,
+    public FilterService: FilterService
   ) {}
 
   ngOnInit() {
-    this.posts = this.postsService.getAllPosts();
+    this.PostsService.loadPosts();
   }
 
-  setCategory(cat: string) {
-    this.filterService.setCategory(cat);
+  get selectedCategory() {
+    return this.FilterService.selectedCategory();
   }
 
-  get selectedCategory(): string {
-    return this.filterService.selectedCategory();
+  setCategory(category: string) {
+    this.FilterService.selectedCategory.set(category);
   }
 
-  get filteredPosts() {
-    const cat = this.filterService.selectedCategory();
-    if (cat === 'all') return this.posts;
-    return this.posts.filter(p => p.category === cat);
-  }
+get filteredPosts() {
+  const cat = this.FilterService.selectedCategory();
+  const all = this.PostsService.getAllPosts();
+  if (cat === 'all') return all;
+
+  const categoryMap: Record<string, string> = {
+    'كرة القدم': 'كره القدم',
+    'السباحة':   'السباحه',
+    'السلة':     'السله',
+    'الجري':     'الجري',
+  };
+
+  const mappedCat = categoryMap[cat] || cat;
+
+  return all.filter(p =>
+    p.category?.toLowerCase().trim() === mappedCat?.toLowerCase().trim()
+  );
+}
 }

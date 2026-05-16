@@ -1,67 +1,184 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, NgZone } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, tap, switchMap, throwError, of, catchError } from 'rxjs';
+import { API_BASE } from './api';
+
+export interface AuthUser {
+  id: number;
+  name: string;
+  email: string;
+  role: string;
+  token: string;
+  avatar?: string;
+  bio?: string;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  private users = signal([
-    { email: 'sara@example.com',   password: 'sara123',     name: 'سارة أحمد' },
-    { email: 'nour@example.com',   password: 'nour123',     name: 'نور محمد'  },
-    { email: 'admin@herpower.com', password: 'herpower123', name: 'Admin'     },
-    { email: 'mona@example.com',   password: 'mona123',     name: 'منى خالد'  },
-    { email: 'reem@example.com',   password: 'reem123',     name: 'ريم علي'   },
-  ]);
+  private _isLoggedIn  = signal<boolean>(!!localStorage.getItem('token'));
+  private _currentUser = signal<AuthUser | null>(this.loadUser());
+  private _isAdmin     = signal<boolean>(localStorage.getItem('isAdmin') === 'true');
 
-  private resetEmail = '';
-  private resetCode  = '';
-  private codeExpiry = 0;
+  readonly isLoggedIn  = this._isLoggedIn.asReadonly();
+  readonly currentUser = this._currentUser.asReadonly();
+  readonly isAdmin     = this._isAdmin.asReadonly();
 
-  /**
-   * في بيئة التطوير: أي إيميل بصيغة صحيحة يعدي
-   * في الـ production: اشيل السطر ده واعتمد على الـ backend
-   */
-  emailExists(email: string): boolean {
-    const knownUser = this.users().some(u => u.email.toLowerCase() === email.toLowerCase());
-    if (knownUser) return true;
+  constructor(private http: HttpClient, private ngZone: NgZone) {}
 
-    // DEV MODE: أي إيميل بصيغة صحيحة يُقبل
-    const isDev = true; // غيّرها لـ false في الـ production
-    return isDev && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  // =========================
+  // Load / Save User Session
+  // =========================
+
+  private loadUser(): AuthUser | null {
+    const u = localStorage.getItem('currentUser');
+    return u ? JSON.parse(u) : null;
   }
 
-  sendResetCode(email: string): string {
-    const code = Math.floor(100000 + Math.random() * 900000).toString();
-    this.resetEmail = email.toLowerCase();
-    this.resetCode  = code;
-    this.codeExpiry = Date.now() + 10 * 60 * 1000; // 10 دقايق
-    console.log(`[Dev] Reset code for ${email}: ${code}`);
-    return code; // بيرجع للـ UI عشان يعرضه في DEV
+  private saveSession(res: any, email: string): void {
+    const token = res.token || res.Token || '';
+
+    const user: AuthUser = {
+      id:     res.userId || res.UserId || res.id || 0,
+      name:   res.username || res.userName || res.Username || email.split('@')[0],
+      email:  res.email || res.Email || email,
+      role:   (res.role || res.Role || 'user').toLowerCase(),
+      token,
+      avatar: res.profileImageUrl || res.avatar || '',
+      bio:    res.bio || '',
+    };
+
+    localStorage.setItem('token', token);
+    localStorage.setItem('currentUser', JSON.stringify(user));
+
+    this._isLoggedIn.set(true);
+    this._currentUser.set(user);
   }
 
-  verifyCode(email: string, code: string): boolean {
-    return (
-      email.toLowerCase() === this.resetEmail &&
-      code === this.resetCode &&
-      Date.now() < this.codeExpiry
+  // =========================
+  // AUTH
+  // =========================
+
+  register(userName: string, email: string, password: string, confirmPassword: string): Observable<any> {
+    return this.http.post(`${API_BASE}/Auth/register`, {
+      username: userName,
+      email,
+      password,
+      confirmPassword
+    }, { responseType: 'text' });
+  }
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(`${API_BASE}/Auth/login`, { email, password }).pipe(
+      tap(res => {
+        this.saveSession(res, email);
+        this.fetchAndUpdateAvatar();
+      })
     );
   }
 
-  resetPassword(email: string, newPassword: string): void {
-    // يحدّث لو الإيميل موجود فعلاً
-    this.users.update(users =>
-      users.map(u => u.email.toLowerCase() === email.toLowerCase()
-        ? { ...u, password: newPassword }
-        : u
-      )
-    );
-    // يصفّر الـ session
-    this.resetEmail = '';
-    this.resetCode  = '';
-    this.codeExpiry = 0;
+  fetchAndUpdateAvatar(): void {
+    const token = localStorage.getItem('token') || '';
+    if (!token) return;
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'ngrok-skip-browser-warning': 'true'
+    });
+    this.http.get<any>(`${API_BASE}/Profile`, { headers }).subscribe({
+      next: (res) => {
+        const updates: Partial<AuthUser> = {};
+        if (res?.profileImageUrl) updates.avatar = res.profileImageUrl;
+        const userId = this._currentUser()?.id;
+        if (res?.profileImageUrl && userId) {
+          localStorage.setItem(`avatar_${userId}`, res.profileImageUrl);
+        }
+        if (Object.keys(updates).length) {
+          this.ngZone.run(() => this.updateCurrentUser(updates));
+        }
+        // ✅ مش هيعمل logout للأدمن
+        if (res?.isBanned || res?.IsBanned) {
+          const currentUser = this._currentUser();
+          if (currentUser?.role !== 'admin') {
+            this.ngZone.run(() => {
+              this.logout();
+            });
+          }
+        }
+      },
+      error: () => {}
+    });
   }
 
-  login(email: string, password: string): boolean {
-    return this.users().some(
-      u => u.email.toLowerCase() === email.toLowerCase() && u.password === password
-    );
+adminLogin(email: string, password: string): Observable<any> {
+  return this.http.post<any>(`${API_BASE}/Auth/login`, {
+    email,
+    password
+  }).pipe(
+    // ✅ catchError الأول علشان يمسك الـ 401
+    catchError(err => {
+      const msg = err?.error?.message || err?.error?.Message || '';
+      if (msg.toLowerCase().includes('banned')) {
+        return throwError(() => ({ error: { message: msg } }));
+      }
+      return throwError(() => err);
+    }),
+    switchMap(res => {
+      const role = (res.role || res.Role || '').toLowerCase();
+
+      if (!role || !role.includes('admin')) {
+        return throwError(() => new Error('no_admin'));
+      }
+
+      localStorage.setItem('isAdmin', 'true');
+      this._isAdmin.set(true);
+      this.saveSession(res, email);
+
+      return of(res);
+    })
+  );
+}
+
+  // =========================
+  // FORGOT PASSWORD FLOW
+  // =========================
+
+  sendResetCode(email: string): Observable<any> {
+    return this.http.post(`${API_BASE}/ForgotPassword/send-otp`, { email });
+  }
+
+  verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post(`${API_BASE}/ForgotPassword/verify-otp`, { email, otp });
+  }
+
+  resetPassword(email: string, otp: string, newPassword: string): Observable<any> {
+    return this.http.post(`${API_BASE}/ForgotPassword/reset-password`, {
+      email,
+      otp,
+      newPassword
+    });
+  }
+
+  // =========================
+  // USER
+  // =========================
+
+  updateCurrentUser(data: Partial<AuthUser>): void {
+    const updated = { ...this._currentUser(), ...data } as AuthUser;
+    localStorage.setItem('currentUser', JSON.stringify(updated));
+    this._currentUser.set(updated);
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('isAdmin');
+
+    this._isLoggedIn.set(false);
+    this._isAdmin.set(false);
+    this._currentUser.set(null);
+  }
+
+  getToken(): string {
+    return localStorage.getItem('token') || '';
   }
 }

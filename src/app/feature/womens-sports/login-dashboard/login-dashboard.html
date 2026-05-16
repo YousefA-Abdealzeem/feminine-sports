@@ -62,7 +62,7 @@
 
       <div class="ld-wrong" *ngIf="wrongCreds">
         <i class="fas fa-triangle-exclamation"></i>
-        بيانات الدخول غير صحيحة
+        {{ errorMsg || 'البريد أو كلمة المرور غير صحيحة' }}
       </div>
 
       <button type="submit" class="ld-btn" [class.loading]="isLoading">

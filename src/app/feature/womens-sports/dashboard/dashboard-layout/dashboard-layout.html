@@ -78,13 +78,16 @@
           <i class="fas fa-bell"></i>
           <span class="dl-notif-count">{{ flaggedCount }}</span>
         </div>
-        <div class="dl-admin-badge">
-          <img src="https://i.pravatar.cc/150?img=10" alt="admin" />
-          <div class="dl-admin-info" *ngIf="!isMobile">
-            <div class="dl-admin-name">Admin</div>
-            <div class="dl-admin-role">HerPower</div>
-          </div>
-        </div>
+<div class="dl-admin-badge">
+  <img *ngIf="adminAvatar" [src]="adminAvatar" alt="admin" />
+  <div *ngIf="!adminAvatar" class="dl-avatar-placeholder">
+    <i class="fas fa-user"></i>
+  </div>
+  <div class="dl-admin-info" *ngIf="!isMobile">
+    <div class="dl-admin-name">Admin</div>
+    <div class="dl-admin-role">HerPower</div>
+  </div>
+</div>
       </div>
     </header>
 

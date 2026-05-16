@@ -1,1 +1,130 @@
-<p>profile works!</p>
+<div class="profile-page" dir="rtl">
+
+  <!-- Cover + Avatar Section -->
+  <div class="cover-section">
+
+    <!-- Cover Image -->
+    <div class="cover-wrapper">
+      <img *ngIf="coverImage" [src]="coverImage" class="cover-img" alt="صورة الغلاف" />
+      <div *ngIf="!coverImage" class="cover-placeholder">
+        <i class="fas fa-image"></i>
+      </div>
+      <div class="cover-overlay"></div>
+
+      <label *ngIf="isEditMode()" class="change-cover-btn">
+        <i class="fas fa-camera me-1"></i> تغيير الغلاف
+        <input type="file" accept="image/*" (change)="onCoverChange($event)" hidden />
+      </label>
+    </div>
+
+    <!-- Avatar -->
+    <div class="avatar-wrapper">
+      <div class="avatar-ring">
+        <img *ngIf="avatarImage" [src]="avatarImage" class="avatar-img" alt="صورة الملف الشخصي" />
+        <div *ngIf="!avatarImage" class="avatar-placeholder">
+          <i class="fas fa-user"></i>
+        </div>
+        <label *ngIf="isEditMode()" class="change-avatar-btn">
+          <i class="fas fa-camera"></i>
+          <input type="file" accept="image/*" (change)="onAvatarChange($event)" hidden />
+        </label>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="container profile-container pb-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-lg-8">
+
+        <!-- Name & Action Buttons -->
+        <div class="name-actions-bar text-center mb-4">
+          <h2 class="user-display-name">{{ user?.name || 'اسم المستخدم' }}</h2>
+          <p class="user-username text-muted">{{ '@' + (user?.username || user?.email?.split('@')[0] || 'username') }}</p>
+
+          <div class="action-btns mt-3 d-flex justify-content-center gap-3 flex-wrap">
+            <button *ngIf="!isEditMode()" class="btn btn-primary-custom" (click)="toggleEdit()">
+              <i class="fas fa-pen-to-square me-2"></i>تعديل الملف
+            </button>
+            <button *ngIf="isEditMode()" class="btn btn-success-custom" (click)="saveChanges()">
+              <i class="fas fa-check me-2"></i>حفظ التغييرات
+            </button>
+            <button *ngIf="isEditMode()" class="btn btn-cancel-custom" (click)="toggleEdit()">
+              <i class="fas fa-xmark me-2"></i>إلغاء
+            </button>
+            <button *ngIf="!isEditMode()" class="btn btn-outline-custom" (click)="logout()">
+              <i class="fas fa-arrow-right-from-bracket me-2"></i>تسجيل الخروج
+            </button>
+          </div>
+        </div>
+
+        <!-- Profile Info Card -->
+        <div class="profile-card card-glass mb-4">
+          <h5 class="section-title">
+            <i class="fas fa-user me-2"></i>المعلومات الشخصية
+          </h5>
+
+          <div class="info-grid">
+
+            <div class="info-item">
+              <label class="info-label">الاسم الكامل</label>
+              <div *ngIf="!isEditMode()" class="info-value">{{ user?.name || '—' }}</div>
+              <input *ngIf="isEditMode()" type="text" class="info-input" [(ngModel)]="editName"
+                placeholder="أدخل اسمك الكامل" />
+            </div>
+
+            <div class="info-item">
+              <label class="info-label">اسم المستخدم</label>
+              <div class="info-value">
+                <span class="badge-username">
+                  @{{ user?.username || user?.email?.split('@')[0] || 'username' }}
+                </span>
+              </div>
+            </div>
+
+            <div class="info-item full-width">
+              <label class="info-label">البريد الإلكتروني</label>
+              <div class="info-value d-flex align-items-center gap-2">
+                <i class="fas fa-envelope info-icon"></i>
+                {{ user?.email || '—' }}
+              </div>
+            </div>
+
+            <div class="info-item full-width">
+              <label class="info-label">نبذة تعريفية</label>
+              <div *ngIf="!isEditMode()" class="info-value bio-text">
+                {{ user?.bio || editBio }}
+              </div>
+              <textarea *ngIf="isEditMode()" class="info-input" [(ngModel)]="editBio"
+                rows="3" placeholder="اكتب نبذة عنك..."></textarea>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Quick Links Card -->
+        <div class="profile-card card-glass">
+          <h5 class="section-title">
+            <i class="fas fa-bolt me-2"></i>روابط سريعة
+          </h5>
+
+          <div class="quick-links-grid">
+            <button class="quick-link-btn" (click)="goToFeed()">
+              <i class="fas fa-house"></i>
+              <span>الصفحة الرئيسية</span>
+            </button>
+            <button class="quick-link-btn" (click)="goToPosts()">
+              <i class="fas fa-newspaper"></i>
+              <span>منشوراتي</span>
+            </button>
+            <button class="quick-link-btn danger" (click)="logout()">
+              <i class="fas fa-right-from-bracket"></i>
+              <span>تسجيل الخروج</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

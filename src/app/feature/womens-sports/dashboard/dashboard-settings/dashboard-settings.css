@@ -42,59 +42,37 @@
 .ds-alert.error   { background:rgba(212,102,122,.12); border:1px solid rgba(212,102,122,.25); color:#D4667A; }
 .ds-alert.success { background:rgba(91,168,192,.1);   border:1px solid rgba(91,168,192,.25);  color:#5BA8C0; }
 
-/* Toggle */
 .ds-toggle-row { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,.04); }
 .ds-toggle-row:last-of-type { border-bottom:none; }
 .ds-toggle-label { font-size:14px; font-weight:600; color:#d0d5dd; }
 .ds-toggle-sub   { font-size:11px; color:rgba(200,210,220,.4); margin-top:3px; }
 
 .ds-toggle {
-  width:46px; height:26px; border-radius:999px; border:none; cursor:pointer;
-  background:rgba(255,255,255,.08); position:relative; flex-shrink:0; transition:.3s;
+  width:46px; height:26px; border-radius:999px; border:none;
+  background:linear-gradient(135deg,#D4667A,#C9A96E);
+  position:relative; flex-shrink:0;
+  cursor:not-allowed;
+  pointer-events:none;
+  opacity:.9;
 }
-.ds-toggle.on { background:linear-gradient(135deg,#D4667A,#C9A96E); }
 .ds-toggle-knob {
-  position:absolute; top:3px; right:3px;
+  position:absolute; top:3px; right:calc(100% - 23px);
   width:20px; height:20px; border-radius:50%; background:#fff;
   transition:.3s;
 }
-.ds-toggle.on .ds-toggle-knob { right:calc(100% - 23px); }
-
-
 
 @media (max-width: 768px) {
-
-  .ds-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .ds-avatar-section {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .ds-big-avatar {
-    width: 64px;
-    height: 64px;
-  }
+  .ds-grid { grid-template-columns: 1fr; }
+  .ds-avatar-section { flex-direction: column; align-items: flex-start; }
+  .ds-big-avatar { width: 64px; height: 64px; }
 }
 
 @media (max-width: 480px) {
-
-  .ds-card {
-    padding: 16px;
-  }
-
-  .ds-field input,
-  .ds-field textarea {
-    font-size: 13px;
-  }
-
-  .ds-btn {
-    width: 100%;
-  }
+  .ds-card { padding: 16px; }
+  .ds-field input, .ds-field textarea { font-size: 13px; }
+  .ds-btn { width: 100%; }
 }
-/* ── RESPONSIVE FIX ── */
+
 .ds-wrap { min-width: 0; }
 @media (max-width: 600px) {
   .ds-grid { grid-template-columns: 1fr; }
@@ -107,7 +85,6 @@
   .ds-title { font-size: 17px; }
 }
 
-/* ===== AVATAR PICKER ===== */
 .ds-avatar-picker {
   position: relative;
   width: 80px;
@@ -150,7 +127,6 @@
   filter: brightness(0.75);
 }
 
-/* زرار تغيير الصورة النصي */
 .ds-change-photo-btn {
   display: inline-flex;
   align-items: center;
@@ -170,4 +146,22 @@
 .ds-change-photo-btn:hover {
   background: rgba(91,168,192,0.2);
   border-color: rgba(91,168,192,0.6);
+}
+
+
+.fa-spinner {
+  animation: fa-spin 1s linear infinite;
+}
+
+.ds-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(212,102,122,0.3), rgba(201,169,110,0.3));
+  border: 2.5px solid rgba(201,169,110,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(201,169,110,0.7);
+  font-size: 30px;
 }

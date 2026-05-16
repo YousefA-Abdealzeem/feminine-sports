@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 import { PostsService } from 'app/core/services/posts';
+import { UsersService } from 'app/core/services/users';
+import { API_BASE } from 'app/core/services/api';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -10,28 +14,52 @@ import { PostsService } from 'app/core/services/posts';
   styleUrl: './dashboard-home.css',
 })
 export class DashboardHome implements OnInit {
-  posts: any[] = [];
+
   today = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
 
-  constructor(private postsService: PostsService) {}
+  stats: any = null;
 
-  ngOnInit(): void {
-    this.posts = this.postsService.getAllPosts();
+  private catColors = ['cat-pink','cat-blue','cat-green','cat-orange','cat-purple','cat-red'];
+
+constructor(
+  public postsService: PostsService,
+  public usersService: UsersService,
+  private http: HttpClient
+) {}
+
+  private get headers(): HttpHeaders {
+    const token = localStorage.getItem('token') || '';
+    return new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true',
+      Authorization: `Bearer ${token}`
+    });
   }
 
-  get totalPosts() { return this.posts.length; }
-  get totalLikes() { return this.posts.reduce((s, p) => s + p.likeCount, 0); }
-  get totalComments() { return this.posts.reduce((s, p) => s + p.comments.length, 0); }
-  get recentPosts() { return this.posts.slice(0, 4); }
+  ngOnInit(): void {
+    this.postsService.loadPosts();
+    this.usersService.loadUsers();
+
+    this.http.get<any>(`${API_BASE}/Admin/stats`, { headers: this.headers }).pipe(
+      catchError(() => of(null))
+    ).subscribe(res => { this.stats = res; });
+  }
+
+get totalPosts()    { return this.postsService.getAllPosts().length; }
+get totalUsers()    { return this.usersService.getAll().length; }
+get totalComments() { return this.postsService.getAllPosts().reduce((s, p) => s + (p.commentCount ?? p.comments.length), 0); }
+get bannedUsers()   { return this.usersService.getAll().filter(u => u.status === 'banned').length; }
+get totalLikes()    { return this.postsService.getAllPosts().reduce((s, p) => s + p.likeCount, 0); }
+get recentPosts()   { return this.postsService.getAllPosts().slice(0, 4); }
 
   get categories() {
-    const cats = ['كرة القدم','السباحة','السلة','الجري'];
-    const icons: any = { 'كرة القدم':'السباحة','السلة':'الجري' };
-    const colors: any = { 'كرة القدم':'rose','السباحة':'ice','السلة':'gold','الجري':'dark' };
-    const total = this.posts.length || 1;
-    return cats.map(c => {
-      const count = this.posts.filter(p => p.category === c).length;
-      return { name: c, count, pct: Math.round((count / total) * 100), icon: icons[c], color: colors[c] };
-    });
+    const all   = this.postsService.getAllPosts();
+    const total = all.length || 1;
+    const map   = new Map<string, number>();
+    all.forEach(p => map.set(p.category, (map.get(p.category) || 0) + 1));
+    return Array.from(map.entries()).map(([name, count], i) => ({
+      name, count,
+      pct: Math.round((count / total) * 100),
+      color: this.catColors[i % this.catColors.length]
+    })).sort((a, b) => b.count - a.count);
   }
 }

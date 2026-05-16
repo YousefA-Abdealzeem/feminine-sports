@@ -66,7 +66,8 @@
 
   <!-- Profile -->
   <div class="profile" (click)="goToProfile()">
-    <img [src]="userImage" />
+    <img *ngIf="userImage" [src]="userImage" />
+    <i *ngIf="!userImage" class="fas fa-user-circle" style="font-size:2rem;color:#999"></i>
   </div>
 
 </nav>

@@ -9,45 +9,60 @@
   overflow: hidden;
 }
 
-/* الفيديو */
 video {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: blur(2px) brightness(0.95) contrast(1.08);
+  /* filter: blur(2px) brightness(0.95) contrast(1.08); */
   pointer-events: none;
+
+  /* ✅ الإضافة المهمة — يخفي الشاشة السودا قبل ما الفيديو يبدأ */
+  opacity: 0;
+  transition: opacity 0.6s ease;
 }
 
-/* overlay */
+/* لما الفيديو يبدأ فعلاً يتشغل */
+video.playing {
+  opacity: 1;
+}
+
 .overlay {
   position: absolute;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
 }
 
-/* زرار الدخول */
 .continue-btn {
-    bottom: 100px;
+  bottom: 100px;
   position: absolute;
   z-index: 2;
-
   padding: 14px 28px;
   border: none;
   border-radius: 30px;
-
-  background: rgb(255, 255, 255); /* الذهبي بتاعك */
+  background: rgb(255, 255, 255);
   color: #000;
-
   font-weight: bold;
   font-size: 16px;
-
   cursor: pointer;
   transition: 0.3s ease;
-
   box-shadow: 0 10px 25px rgba(0,0,0,0.4);
 }
 
 .continue-btn:hover {
   transform: scale(1.05);
   background: #d4b46a;
+}
+
+
+@media (max-width: 768px) {
+  video {
+    object-fit: contain;
+    background: #000;
+  }
+}
+@media (max-width: 1024px) {
+  video {
+    object-fit: contain;
+    background: #000;
+  }
 }

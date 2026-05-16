@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from 'app/core/services/auth';
 
 @Component({
   selector: 'app-login-dashboard',
@@ -17,30 +18,36 @@ export class LoginDashboard {
   emailError = false;
   passwordError = false;
   wrongCreds = false;
+  errorMsg = '';
 
-  // بيانات الأدمن الافتراضية
-  private readonly ADMIN_EMAIL = 'admin@herpower.com';
-  private readonly ADMIN_PASS = 'herpower123';
-
-  constructor(private router: Router) {}
+  constructor(private router: Router, private auth: AuthService, private cdr: ChangeDetectorRef) {}
 
   onLogin(): void {
     this.emailError = !this.email;
     this.passwordError = !this.password;
     this.wrongCreds = false;
+    this.errorMsg = '';
+    this.cdr.detectChanges();
 
     if (this.emailError || this.passwordError) return;
 
     this.isLoading = true;
+    this.cdr.detectChanges();
 
-    setTimeout(() => {
-      if (this.email === this.ADMIN_EMAIL && this.password === this.ADMIN_PASS) {
-        localStorage.setItem('isAdmin', 'true');
-        this.router.navigate(['/dashboard']);
-      } else {
-        this.wrongCreds = true;
+    this.auth.adminLogin(this.email, this.password).subscribe({
+      next: () => {
         this.isLoading = false;
+        this.cdr.detectChanges();
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.wrongCreds = true;
+        this.errorMsg = err?.message === 'no_admin'
+          ? 'ليس لديك صلاحيات الأدمن'
+          : (err?.error?.message || err?.error?.Message || 'البريد أو كلمة المرور غير صحيحة');
+        this.cdr.detectChanges();
       }
-    }, 1200);
+    });
   }
 }

@@ -71,9 +71,9 @@
         <label>التصنيف</label>
         <select [(ngModel)]="form.category">
           <option value="كرة القدم">كرة القدم ⚽</option>
-          <option value="السباحة">السباحة 🏊‍♀️</option>
+          <option value="السباحة">السباحة 🏊</option>
           <option value="السلة">كرة السلة 🏀</option>
-          <option value="الجري">الجري 🏃‍♀️</option>
+          <option value="الجري">الجري 🏃</option>
         </select>
       </div>
 
@@ -148,7 +148,7 @@
   <div class="dp-modal dp-confirm" (click)="$event.stopPropagation()">
     <i class="fas fa-triangle-exclamation dp-warn-icon"></i>
     <h3>هل تريد حذف هذا البوست؟</h3>
-    <p class="dp-confirm-name">{{ deleteTarget?.title }}</p>
+    <p class="dp-confirm-name">{{ deleteTarget!.title }}</p>
     <div class="dp-modal-foot">
       <button class="dp-modal-btn save"
               style="background:rgba(212,102,122,.2);color:#D4667A;border-color:rgba(212,102,122,.4)"

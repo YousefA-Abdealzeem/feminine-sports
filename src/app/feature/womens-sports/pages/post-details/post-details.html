@@ -26,8 +26,13 @@
 
       <hr>
 
+      <!-- Ban warning -->
+      <div class="alert-block" *ngIf="banWarning" style="background:#fee2e2;border-color:#f87171;color:#dc2626">
+        <i class="fas fa-ban"></i> تم حظر حسابك. سيتم تحويلك لصفحة تسجيل الدخول...
+      </div>
+
       <!-- Blocked message -->
-      <div class="alert-block" *ngIf="isBlocked">
+      <div class="alert-block" *ngIf="isBlocked && !banWarning">
         <i class="fas fa-ban"></i> {{ blockMessage }}
       </div>
 
@@ -47,7 +52,8 @@
       <div class="mt-4" *ngIf="visibleComments.length > 0">
         <div class="comment-box p-3 mb-3" *ngFor="let c of visibleComments">
           <div class="d-flex gap-3">
-            <img [src]="c.img" class="rounded-circle comment-user-img">
+            <img *ngIf="c.img" [src]="c.img" class="rounded-circle comment-user-img">
+            <i *ngIf="!c.img" class="fas fa-user-circle comment-user-img" style="font-size:2.5rem;color:#ccc"></i>
             <div>
               <h6>{{ c.user }}</h6>
               <small>{{ c.date }}</small>

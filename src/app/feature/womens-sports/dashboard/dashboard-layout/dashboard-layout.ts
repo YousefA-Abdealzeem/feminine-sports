@@ -1,7 +1,11 @@
-import { Component, HostListener, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, HostListener, OnInit, AfterViewInit, ElementRef, ViewChild, ChangeDetectorRef, NgZone } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { catchError, of } from 'rxjs';
 import { PostsService } from 'app/core/services/posts';
+import { AuthService } from 'app/core/services/auth';
+import { API_BASE } from 'app/core/services/api';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -10,17 +14,55 @@ import { PostsService } from 'app/core/services/posts';
   styleUrl: './dashboard-layout.css',
 })
 export class DashboardLayout implements OnInit, AfterViewInit {
-  collapsed  = false;   // desktop: icon-only
-  mobileOpen = false;   // mobile/tablet: sidebar open
+  collapsed  = false;
+  mobileOpen = false;
   isMobile   = false;
 
   @ViewChild('sidebar', { static: true }) sidebarRef!: ElementRef<HTMLElement>;
 
-  constructor(private router: Router, public postsService: PostsService) {}
+  constructor(
+    private router: Router,
+    public postsService: PostsService,
+    public authService: AuthService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone,
+    private http: HttpClient
+  ) {}
+
+  get adminAvatar(): string {
+    return this.authService.currentUser()?.avatar || 'https://i.pravatar.cc/150?img=10';
+  }
+
+  // ✅ getter واحد بس من الـ signal
+  get flaggedCount(): number {
+    return this.postsService.flaggedCountFromServer();
+  }
+
+  private intervalRef: any;
 
   ngOnInit(): void {
     if (!localStorage.getItem('isAdmin')) this.router.navigate(['/login-dashboard']);
     this.onResize();
+    this.authService.fetchAndUpdateAvatar();
+    this.loadFlaggedCount();
+    this.intervalRef = setInterval(() => {
+      this.ngZone.run(() => this.cdr.detectChanges());
+    }, 300);
+  }
+
+  private loadFlaggedCount(): void {
+    const token = localStorage.getItem('token') || '';
+    const headers = new HttpHeaders({
+      'ngrok-skip-browser-warning': 'true',
+      Authorization: `Bearer ${token}`
+    });
+    this.http.get<any[]>(`${API_BASE}/Admin/hate-speech`, { headers }).pipe(
+      catchError(() => of([]))
+    ).subscribe(data => {
+      // ✅ حدث الـ signal مش الـ property
+      this.postsService.flaggedCountFromServer.set((data || []).length);
+      this.cdr.detectChanges();
+    });
   }
 
   ngAfterViewInit(): void {
@@ -37,26 +79,20 @@ export class DashboardLayout implements OnInit, AfterViewInit {
     }, { passive: true });
   }
 
-  /** هل يظهر النص بجانب الأيقونة؟ */
   get showLabels(): boolean {
     if (this.isMobile) return this.mobileOpen;
     return !this.collapsed;
   }
 
-  get flaggedCount(): number { return this.postsService.flaggedComments.length; }
-
-  /** Desktop: toggle collapse */
   toggleDesktop(): void { this.collapsed = !this.collapsed; }
-
-  /** Mobile/Tablet: toggle sidebar drawer */
   toggleSidebar(): void { this.mobileOpen = !this.mobileOpen; }
 
-  /** عند الضغط على أي لينك في الموبايل يقفل الـ drawer */
   onNavClick(): void {
     if (this.isMobile) this.mobileOpen = false;
   }
 
   logout(): void {
+    clearInterval(this.intervalRef);
     localStorage.removeItem('isAdmin');
     this.router.navigate(['/login-dashboard']);
   }
@@ -66,7 +102,6 @@ export class DashboardLayout implements OnInit, AfterViewInit {
     const w = window.innerWidth;
     const wasMobile = this.isMobile;
     this.isMobile = w <= 900;
-    // لو رجع desktop نغلق الـ drawer
     if (wasMobile && !this.isMobile) this.mobileOpen = false;
   }
 }

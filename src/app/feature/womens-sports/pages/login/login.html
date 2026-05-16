@@ -26,6 +26,11 @@
         <a class="forgot-link" routerLink="/forgot-password">نسيت كلمة المرور؟</a>
       </div>
 
+      <!-- رسالة خطأ من السيرفر -->
+      <div *ngIf="errorMsg" style="color:red; font-size:13px; margin-bottom:8px; text-align:center;">
+        {{ errorMsg }}
+      </div>
+
       <button type="submit" [disabled]="loading">
         <span *ngIf="!loading">تسجيل الدخول</span>
         <span *ngIf="loading" class="spinner"></span>
