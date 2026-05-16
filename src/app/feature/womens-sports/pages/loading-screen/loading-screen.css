@@ -15,7 +15,7 @@ video {
   object-fit: cover;
   /* filter: blur(2px) brightness(0.95) contrast(1.08); */
   pointer-events: none;
-
+opacity: 1 !important; /* ✅ الإضافة المهمة — يخلي الفيديو ظاهر دايمًا */
   /* ✅ الإضافة المهمة — يخفي الشاشة السودا قبل ما الفيديو يبدأ */
   opacity: 0;
   transition: opacity 0.6s ease;
