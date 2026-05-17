@@ -33,7 +33,12 @@ export class UsersService {
     });
   }
 
-  // GET /api/Admin/users
+  // ✅ حول http لـ https
+  private fixUrl(url: string): string {
+    if (!url) return '';
+    return url.startsWith('http://') ? url.replace('http://', 'https://') : url;
+  }
+
   loadUsers(): void {
     this.http.get<any[]>(`${API_BASE}/Admin/users`, { headers: this.headers }).pipe(
       catchError(() => of([]))
@@ -42,7 +47,6 @@ export class UsersService {
     });
   }
 
-  // ✅ بدل ما تستدعي /Admin/user/{id} اللي مش موجود
   loadUser(userId: number): void {
     const existing = this._users().find(u => u.id === userId);
     if (existing) return;
@@ -63,7 +67,8 @@ export class UsersService {
     else if (isSuspended) status = 'suspended';
 
     const savedAvatar = localStorage.getItem(`avatar_${userId}`) || '';
-    const avatar = u.profileImageUrl || u.ProfileImageUrl || u.avatar || savedAvatar || '';
+    // ✅ fixUrl على الـ avatar
+    const avatar = this.fixUrl(u.profileImageUrl || u.ProfileImageUrl || u.avatar || savedAvatar || '');
     if (avatar && userId) localStorage.setItem(`avatar_${userId}`, avatar);
 
     return {
@@ -86,7 +91,6 @@ export class UsersService {
     return this._users().find(u => u.id === id);
   }
 
-  // PUT /api/Admin/ban/{userId}
   ban(userId: number): void {
     this.http.put(`${API_BASE}/Admin/ban/${userId}`, {}, { headers: this.headers }).pipe(
       catchError(() => of(null))
@@ -96,7 +100,6 @@ export class UsersService {
     ));
   }
 
-  // PUT /api/Admin/unban/{userId}
   unban(userId: number): void {
     this.http.put(`${API_BASE}/Admin/unban/${userId}`, {}, { headers: this.headers }).pipe(
       catchError(() => of(null))
@@ -108,7 +111,6 @@ export class UsersService {
 
   activate(userId: number): void { this.unban(userId); }
 
-  // DELETE /api/Admin/user/{userId}
   deleteUser(userId: number): void {
     this.http.delete(`${API_BASE}/Admin/user/${userId}`, { headers: this.headers }).pipe(
       catchError(() => of(null))
@@ -116,7 +118,6 @@ export class UsersService {
     this._users.update(users => users.filter(u => u.id !== userId));
   }
 
-  // PUT /api/Admin/suspend/{userId}
   suspend(userId: number, days: number): void {
     this.http.put(`${API_BASE}/Admin/suspend/${userId}`, { days }, { headers: this.headers }).pipe(
       catchError(() => of(null))
