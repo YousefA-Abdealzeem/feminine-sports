@@ -32,7 +32,6 @@ export class PostsService {
   private _posts = signal<Post[]>([]);
   readonly posts = this._posts.asReadonly();
 
-  // ✅ signal مشترك للـ flagged count
   flaggedCountFromServer = signal<number>(0);
 
   private _flaggedComments = signal<Array<Comment & { postId: number; postTitle: string }>>(
@@ -50,10 +49,6 @@ export class PostsService {
     this.loadPosts();
   }
 
-  // =========================
-  // HEADERS
-  // =========================
-
   private get headers(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
     return new HttpHeaders({
@@ -61,6 +56,15 @@ export class PostsService {
       'ngrok-skip-browser-warning': 'true',
       ...(token ? { Authorization: `Bearer ${token}` } : {})
     });
+  }
+
+  // =========================
+  // URL FIX
+  // =========================
+
+  private fixUrl(url: string): string {
+    if (!url) return '';
+    return url.startsWith('http://') ? url.replace('http://', 'https://') : url;
   }
 
   // =========================
@@ -109,6 +113,9 @@ export class PostsService {
 
   private fixImage(img: string): string {
     if (!img) return '/assets/images/posts.jpg';
+    if (img.startsWith('http://')) {
+      img = img.replace('http://', 'https://');
+    }
     if (!img.startsWith('http') && !img.startsWith('data')) {
       return `/assets/images/${img}`;
     }
@@ -141,7 +148,7 @@ export class PostsService {
   private mapComment(c: any): Comment {
     const userId = c.userId || c.UserId || 0;
     const savedAvatar = localStorage.getItem(`avatar_${userId}`) || '';
-    const img = c.profileImageUrl || c.userProfileImage || c.avatar || savedAvatar || '';
+    const img = this.fixUrl(c.profileImageUrl || c.userProfileImage || c.avatar || savedAvatar || '');
     if (img && userId) localStorage.setItem(`avatar_${userId}`, img);
 
     return {
@@ -241,7 +248,7 @@ export class PostsService {
       ).subscribe(res => {
         if (res !== null) {
           const isFlagged = res?.isFlagged || res?.flagged || false;
-          const commentImg = res?.profileImageUrl || res?.userProfileImage || img || localStorage.getItem(`avatar_${userId}`) || '';
+          const commentImg = this.fixUrl(res?.profileImageUrl || res?.userProfileImage || img || localStorage.getItem(`avatar_${userId}`) || '');
 
           if (commentImg && userId) localStorage.setItem(`avatar_${userId}`, commentImg);
 
@@ -296,10 +303,6 @@ export class PostsService {
     });
   }
 
-  // =========================
-  // LIKES
-  // =========================
-
   likePost(postId: number): void {
     this.http.post(`${API_BASE}/Likes/${postId}`, {}, {
       headers: this.headers
@@ -314,87 +317,39 @@ export class PostsService {
     }));
   }
 
-  // =========================
-  // ADD POST
-  // =========================
-
   addPost(data: { title: string; category: string; desc: string; imageFile?: File | null }): void {
-
     const formData = new FormData();
     formData.append('Title', data.title);
     formData.append('Category', data.category);
     formData.append('Content', data.desc);
-
-    if (data.imageFile) {
-      formData.append('image', data.imageFile);
-    }
-
+    if (data.imageFile) formData.append('image', data.imageFile);
     this.http.post(`${API_BASE}/Posts`, formData, {
       headers: this.apiService.getFormHeaders()
-    }).pipe(
-      catchError(() => of(null))
-    ).subscribe(() => this.loadPosts());
+    }).pipe(catchError(() => of(null))).subscribe(() => this.loadPosts());
   }
 
-  // =========================
-  // EDIT POST
-  // =========================
-
-  editPost(
-    id: number,
-    data: { title: string; category: string; desc: string; imageFile?: File | null }
-  ): void {
-
+  editPost(id: number, data: { title: string; category: string; desc: string; imageFile?: File | null }): void {
     const formData = new FormData();
     formData.append('Title', data.title);
     formData.append('Category', data.category);
     formData.append('Content', data.desc);
-
-    if (data.imageFile) {
-      formData.append('image', data.imageFile);
-    }
-
+    if (data.imageFile) formData.append('image', data.imageFile);
     this.http.put(`${API_BASE}/Posts/${id}`, formData, {
       headers: this.apiService.getFormHeaders()
-    }).pipe(
-      catchError(() => of(null))
-    ).subscribe(() => {
-      this.loadPost(id);
-    });
-
+    }).pipe(catchError(() => of(null))).subscribe(() => this.loadPost(id));
     this._posts.update(ps => ps.map(p =>
-      p.id === id
-        ? {
-            ...p,
-            title: data.title,
-            category: data.category,
-            desc: data.desc
-          }
-        : p
+      p.id === id ? { ...p, title: data.title, category: data.category, desc: data.desc } : p
     ));
   }
 
-  // =========================
-  // DELETE POST
-  // =========================
-
   deletePost(id: number): void {
-    this.http.delete(`${API_BASE}/Posts/${id}`, {
-      headers: this.headers
-    }).pipe(
+    this.http.delete(`${API_BASE}/Posts/${id}`, { headers: this.headers }).pipe(
       catchError(() => of(null))
     ).subscribe();
-
     this._posts.update(ps => ps.filter(p => p.id !== id));
   }
 
-  // =========================
-  // GETTERS
-  // =========================
-
-  getAllPosts(): Post[] {
-    return this._posts();
-  }
+  getAllPosts(): Post[] { return this._posts(); }
 
   getPostById(id: number): Post | undefined {
     return this._posts().find(p => p.id === id);

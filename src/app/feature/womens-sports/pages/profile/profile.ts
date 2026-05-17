@@ -24,7 +24,6 @@ export class Profile implements OnInit {
   editName = '';
   editBio  = '';
 
-  // ✅ فاضي مش unsplash
   coverImage  = '';
   avatarImage = '';
 
@@ -34,6 +33,11 @@ export class Profile implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {}
+
+  private fixUrl(url: string): string {
+    if (!url) return '';
+    return url.startsWith('http://') ? url.replace('http://', 'https://') : url;
+  }
 
   private get headers(): HttpHeaders {
     const token = localStorage.getItem('token') || '';
@@ -67,7 +71,7 @@ export class Profile implements OnInit {
           name:       res.username || res.userName || res.UserName || '',
           email:      res.email || res.Email || '',
           bio:        res.bio || res.Bio || '',
-          avatar:     res.profileImageUrl || res.avatar || '',
+          avatar:     this.fixUrl(res.profileImageUrl || res.avatar || ''),
           violations: res.violationCount || res.violations || 0,
           isBanned:   res.isBanned || false,
         };
@@ -79,7 +83,7 @@ export class Profile implements OnInit {
         this.http.get<any>(`${API_BASE}/Profile/cover`, { headers: this.headers }).pipe(
           catchError(() => of(null))
         ).subscribe(coverRes => {
-          const cover = coverRes?.coverUrl || coverRes?.CoverUrl || coverRes?.coverImageUrl;
+          const cover = this.fixUrl(coverRes?.coverUrl || coverRes?.CoverUrl || coverRes?.coverImageUrl || '');
           if (cover) {
             this.coverImage = cover;
             if (this.user?.id) localStorage.setItem(`cover_${this.user.id}`, cover);
@@ -125,7 +129,7 @@ export class Profile implements OnInit {
     ).subscribe(res => {
       if (res !== null) {
         this.loading = false;
-        const newAvatar = res?.profileImageUrl || res?.ProfileImageUrl || this.avatarImage;
+        const newAvatar = this.fixUrl(res?.profileImageUrl || res?.ProfileImageUrl || this.avatarImage);
 
         this.user = { ...this.user, name: this.editName, bio: this.editBio, avatar: newAvatar };
         this.avatarImage  = newAvatar;
@@ -139,7 +143,7 @@ export class Profile implements OnInit {
           this.http.put<any>(`${API_BASE}/Profile/update-cover`, coverFormData, { headers: this.uploadHeaders }).pipe(
             catchError(() => of(null))
           ).subscribe(coverRes => {
-            const newCover = coverRes?.coverUrl || coverRes?.CoverUrl || coverRes?.coverImageUrl || this.coverImage;
+            const newCover = this.fixUrl(coverRes?.coverUrl || coverRes?.CoverUrl || coverRes?.coverImageUrl || this.coverImage);
             this.coverImage        = newCover;
             this.selectedCoverFile = null;
             if (this.user?.id) localStorage.setItem(`cover_${this.user.id}`, newCover);
