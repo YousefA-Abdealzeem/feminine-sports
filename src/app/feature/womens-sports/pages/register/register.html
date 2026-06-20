@@ -1,0 +1,69 @@
+<div class="page">
+  <div class="card">
+
+    <div class="icon">
+      <img src="/assets/images/logonavbar.png" alt="">
+    </div>
+
+    <h2>إنشاء حسابك</h2>
+    <p class="subtitle">انضم إلى مجتمع الرياضة النسائية</p>
+
+    <form (ngSubmit)="registerUser()">
+
+      <label>اسم المستخدم</label>
+      <input
+        type="text"
+        placeholder="أدخل اسم المستخدم"
+        [(ngModel)]="userName"
+        name="userName"
+      >
+
+      <label>البريد الإلكتروني</label>
+      <input
+        type="email"
+        placeholder="أدخل بريدك الإلكتروني"
+        [(ngModel)]="email"
+        name="email"
+      >
+
+      <label>كلمة المرور</label>
+      <div class="password-box">
+        <input
+          [type]="showPass ? 'text' : 'password'"
+          placeholder="أدخل كلمة المرور"
+          [(ngModel)]="password"
+          name="password"
+        >
+        <i class="fa-solid" [ngClass]="showPass ? 'fa-eye-slash' : 'fa-eye'" (click)="showPass = !showPass"></i>
+      </div>
+
+      <label>تأكيد كلمة المرور</label>
+      <div class="password-box">
+        <input
+          [type]="showConfirm ? 'text' : 'password'"
+          placeholder="أعد إدخال كلمة المرور"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+        >
+        <i class="fa-solid" [ngClass]="showConfirm ? 'fa-eye-slash' : 'fa-eye'" (click)="showConfirm = !showConfirm"></i>
+      </div>
+
+      <!-- رسالة الخطأ من السيرفر -->
+      <div *ngIf="errorMsg" class="error-msg" style="color:red; font-size:13px; margin-bottom:8px; text-align:center;">
+        {{ errorMsg }}
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        <span *ngIf="!loading">إنشاء حساب</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+
+    </form>
+
+    <div class="auth-container">
+      <div class="login">هل لديك حساب؟</div>
+      <div class="btn-login" (click)="goToLogin()">تسجيل الدخول</div>
+    </div>
+
+  </div>
+</div>

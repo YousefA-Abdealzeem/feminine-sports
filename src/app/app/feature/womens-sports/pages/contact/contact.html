@@ -1,0 +1,117 @@
+<div class="container py-5" dir="rtl">
+
+  <!-- Title -->
+  <div class="row justify-content-center text-center mb-5">
+    <div class="col-lg-8">
+      <h2 class="title-contact fw-bold">اتصل بنا</h2>
+      <p class="text-muted fs-5">
+        هل لديك أسئلة أو ملاحظات؟ يسعدنا التواصل معك.
+      </p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- FORM -->
+    <div class="col-lg-6">
+      <div class="shadow bg-white rounded-5 p-4 h-100">
+
+        <h2 class="title-contact mb-4">ارسل لنا رسالتك</h2>
+
+        <!-- Messages -->
+        <div *ngIf="successMsg" class="alert alert-success text-center">
+          {{ successMsg }}
+        </div>
+
+        <div *ngIf="errorMsg" class="alert alert-danger text-center">
+          {{ errorMsg }}
+        </div>
+
+        <form (ngSubmit)="submit()">
+
+          <!-- Name -->
+          <div class="mb-3">
+            <label class="form-label">الاسم</label>
+            <input type="text"
+                   class="form-control custom-input"
+                   placeholder="أدخل اسمك"
+                   name="name"
+                   [(ngModel)]="form.name">
+          </div>
+
+          <!-- Email -->
+          <div class="mb-3">
+            <label class="form-label">البريد الإلكتروني</label>
+            <input type="email"
+                   class="form-control custom-input"
+                   placeholder="أدخل بريدك الإلكتروني"
+                   name="email"
+                   [(ngModel)]="form.email">
+          </div>
+
+          <!-- Subject -->
+          <div class="mb-3">
+            <label class="form-label">الموضوع</label>
+            <input type="text"
+                   class="form-control custom-input"
+                   placeholder="أدخل موضوع الرسالة"
+                   name="subject"
+                   [(ngModel)]="form.subject">
+          </div>
+
+          <!-- Message -->
+          <div class="mb-4">
+            <label class="form-label">الرسالة</label>
+            <textarea rows="6"
+                      class="form-control custom-input"
+                      placeholder="كيف يمكننا مساعدتك؟"
+                      name="message"
+                      [(ngModel)]="form.message">
+            </textarea>
+          </div>
+
+          <!-- Button -->
+          <button type="submit"
+                  class="btn send-btn w-100"
+                  [disabled]="loading">
+
+            <span *ngIf="loading">جاري الإرسال...</span>
+
+            <span *ngIf="!loading">
+              <i class="fa-regular fa-paper-plane ms-2"></i>
+              إرسال الرسالة
+            </span>
+
+          </button>
+
+        </form>
+
+      </div>
+    </div>
+
+    <!-- INFO SIDE (زي ما هو عندك) -->
+    <div class="col-lg-6">
+
+      <div class="shadow bg-white rounded-5 p-4 mb-4">
+        <h2 class="title-contact mb-4">معلومات الاتصال</h2>
+
+        <div class="mb-3">
+          <h6>البريد الإلكتروني</h6>
+          <p class="text-muted">devtiplet333@gmail.com</p>
+        </div>
+
+        <div class="mb-3">
+          <h6>الهاتف</h6>
+          <p class="text-muted">16541</p>
+        </div>
+
+        <div>
+          <h6>العنوان</h6>
+          <p class="text-muted">قنا - مصر</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,230 @@
+<div class="ds-wrap">
+
+  <div class="ds-header">
+    <h2 class="ds-title">
+      <i class="fas fa-gear"></i> إعدادات الأدمن
+    </h2>
+    <p class="ds-sub">تعديل بياناتك الشخصية وإعدادات الحساب</p>
+  </div>
+
+  <div class="ds-grid">
+
+    <!-- Profile -->
+    <div class="ds-card">
+
+      <div class="ds-card-head">
+        <i class="fas fa-user-circle"></i> الملف الشخصي
+      </div>
+
+      <div class="ds-avatar-section">
+
+<div class="ds-avatar-picker" (click)="triggerAvatarInput()">
+  <img *ngIf="form.avatar" [src]="form.avatar" class="ds-big-avatar" alt="avatar" />
+  <div *ngIf="!form.avatar" class="ds-avatar-placeholder">
+    <i class="fas fa-user"></i>
+  </div>
+  <div class="ds-avatar-overlay"><i class="fas fa-camera"></i></div>
+</div>
+
+        <input
+          #avatarInput
+          type="file"
+          accept="image/*"
+          hidden
+          (change)="onAvatarSelected($event)"
+        />
+
+        <div>
+          <div class="ds-admin-name">{{ form.name }}</div>
+          <div class="ds-admin-role">مشرف المنصة</div>
+          <span class="ds-badge-admin"><i class="fas fa-shield-alt"></i> Admin</span>
+          <br/>
+          <button class="ds-change-photo-btn" (click)="triggerAvatarInput()">
+            <i class="fas fa-upload"></i> تغيير الصورة
+          </button>
+        </div>
+
+      </div>
+
+      <div class="ds-fields">
+
+        <div class="ds-field">
+          <label>الاسم</label>
+          <input [(ngModel)]="form.name" placeholder="الاسم" />
+        </div>
+
+<!-- قبل -->
+<div class="ds-field">
+  <label>البريد الالكتروني</label>
+  <input [(ngModel)]="form.email" placeholder="البريد الالكتروني" />
+</div>
+
+<!-- بعد -->
+<div class="ds-field">
+  <label>رقم الهاتف</label>
+  <input [(ngModel)]="form.phone" placeholder="رقم الهاتف" />
+</div>
+
+        <div class="ds-field">
+          <label>نبذة شخصية</label>
+          <textarea [(ngModel)]="form.bio" placeholder="نبذة شخصية" rows="3"></textarea>
+        </div>
+
+      </div>
+
+      <div *ngIf="saved" class="ds-alert success">
+        <i class="fas fa-check-circle"></i> تم حفظ البيانات بنجاح
+      </div>
+
+      <button
+  class="ds-btn save"
+  (click)="saveProfile()"
+  [disabled]="loading || saved"
+>
+
+  <i
+    *ngIf="loading"
+    class="fas fa-spinner fa-spin"
+  ></i>
+
+  <i
+    *ngIf="!loading && !saved"
+    class="fas fa-save"
+  ></i>
+
+  <i
+    *ngIf="saved"
+    class="fas fa-check"
+  ></i>
+
+  {{
+    loading
+      ? 'جاري التحديث...'
+      : saved
+        ? 'تم الحفظ'
+        : 'حفظ البيانات'
+  }}
+
+</button>
+
+    </div>
+
+    <!-- Password + Settings -->
+    <div class="ds-card">
+
+      <div class="ds-card-head">
+        <i class="fas fa-lock"></i> تغيير كلمة المرور
+      </div>
+
+      <div class="ds-fields">
+
+        <div class="ds-field">
+          <label>كلمة المرور الحالية</label>
+          <div class="ds-input-wrap">
+            <input [(ngModel)]="passForm.old" [type]="showOld ? 'text' : 'password'" placeholder="كلمة المرور الحالية" />
+            <span class="ds-eye" (click)="showOld = !showOld">
+              <i class="fas" [class.fa-eye]="!showOld" [class.fa-eye-slash]="showOld"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="ds-field">
+          <label>كلمة المرور الجديدة</label>
+          <div class="ds-input-wrap">
+            <input [(ngModel)]="passForm.new" [type]="showNew ? 'text' : 'password'" placeholder="كلمة المرور الجديدة" />
+            <span class="ds-eye" (click)="showNew = !showNew">
+              <i class="fas" [class.fa-eye]="!showNew" [class.fa-eye-slash]="showNew"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="ds-field">
+          <label>تأكيد كلمة المرور</label>
+          <div class="ds-input-wrap">
+            <input [(ngModel)]="passForm.confirm" [type]="showConf ? 'text' : 'password'" placeholder="تأكيد كلمة المرور" />
+            <span class="ds-eye" (click)="showConf = !showConf">
+              <i class="fas" [class.fa-eye]="!showConf" [class.fa-eye-slash]="showConf"></i>
+            </span>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="passError" class="ds-alert error">
+        <i class="fas fa-exclamation-circle"></i> {{ passError }}
+      </div>
+      <div *ngIf="passSuccess" class="ds-alert success">
+        <i class="fas fa-check-circle"></i> {{ passSuccess }}
+      </div>
+
+      <button
+  class="ds-btn save"
+  (click)="saveProfile()"
+  [disabled]="loading || saved"
+>
+
+  <i
+    *ngIf="loading"
+    class="fas fa-spinner fa-spin"
+  ></i>
+
+  <i
+    *ngIf="!loading && !saved"
+    class="fas fa-save"
+  ></i>
+
+  <i
+    *ngIf="saved"
+    class="fas fa-check"
+  ></i>
+
+  {{
+    loading
+      ? 'جاري التحديث...'
+      : saved
+        ? 'تم الحفظ'
+        : 'حفظ البيانات'
+  }}
+
+</button>
+
+      <!-- Platform Settings -->
+      <div class="ds-card-head" style="margin-top:4px">
+        <i class="fas fa-sliders-h"></i> إعدادات المنصة
+      </div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">فلتر الكلام المسيء</div>
+          <div class="ds-toggle-sub">حجب التعليقات التي تحتوي على محتوى مخالف</div>
+        </div>
+        <button class="ds-toggle" disabled>
+          <div class="ds-toggle-knob"></div>
+        </button>
+      </div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">الإيقاف التلقائي</div>
+          <div class="ds-toggle-sub">إيقاف المستخدم تلقائياً عند 3 مخالفات</div>
+        </div>
+        <button class="ds-toggle" disabled>
+          <div class="ds-toggle-knob"></div>
+        </button>
+      </div>
+
+      <div class="ds-toggle-row">
+        <div>
+          <div class="ds-toggle-label">السماح بالتعليقات</div>
+          <div class="ds-toggle-sub">السماح للمستخدمين بالتعليق على البوستات</div>
+        </div>
+        <button class="ds-toggle" disabled>
+          <div class="ds-toggle-knob"></div>
+        </button>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,102 @@
+.footer {
+  background: linear-gradient(
+    180deg,
+    #080C10 0%,
+    #121920 100%
+  );
+
+  color: #EAEAEA;
+
+  padding: 60px 20px 20px;
+
+  font-family: "Segoe UI", Arial, sans-serif;
+
+  border-top: 1px solid rgba(201, 169, 110, 0.15);
+}
+
+/* ===== BOOTSTRAP GRID FIX ===== */
+/* مهم جدًا: بلاش flex هنا عشان ما يكسرش col-12 */
+.footer-box {
+  margin-bottom: 30px;
+}
+
+/* ===== TEXT ===== */
+
+.footer-box h3,
+.footer-box h4 {
+  margin-bottom: 15px;
+  color: #C9A96E;
+}
+
+.footer-box p {
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+}
+
+/* ===== LINKS ===== */
+
+.footer-box ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-box ul li {
+  margin-bottom: 10px;
+}
+
+.footer-box ul li a {
+  color: rgba(255, 255, 255, 0.75);
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.footer-box ul li a:hover {
+  color: #D4667A;
+  padding-right: 5px;
+}
+
+/* ===== SOCIAL ===== */
+
+.social {
+  display: flex;
+  gap: 15px;
+  font-size: 20px;
+  flex-wrap: wrap;
+}
+
+.social i {
+  cursor: pointer;
+  transition: 0.3s ease;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.social i:hover {
+  color: #5BA8C0;
+  transform: scale(1.2);
+}
+
+/* ===== BOTTOM ===== */
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+
+  border-top: 1px solid rgba(201, 169, 110, 0.15);
+
+  color: rgba(255, 255, 255, 0.5);
+
+  font-size: 14px;
+}
+
+/* ===== RESPONSIVE SAFETY (optional but مهم) ===== */
+@media (max-width: 1024px) {
+  .footer-box {
+    text-align: center;
+  }
+
+  .social {
+    justify-content: center;
+  }
+}

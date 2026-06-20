@@ -1,0 +1,290 @@
+/* ================= PAGE ================= */
+
+.page {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(91,168,192,0.12), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(212,102,122,0.10), transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(201,169,110,0.05), transparent 60%),
+    #080C10;
+}
+
+/* ================= LOGIN CARD ================= */
+
+.login-card {
+  position: relative;
+  width: 420px;
+  padding: 36px;
+  border-radius: 26px;
+
+  background: linear-gradient(
+    145deg,
+    rgba(18, 25, 32, 0.82),
+    rgba(8, 12, 16, 0.65)
+  );
+
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(201, 169, 110, 0.12);
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.55),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+
+  transition: 0.4s ease;
+}
+
+.login-card:hover {
+  transform: translateY(-6px);
+}
+
+.login-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 26px;
+
+  background: radial-gradient(
+    circle at top left,
+    rgba(212, 102, 122, 0.15),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+/* ================= ICON ================= */
+
+.icon {
+  width: 78px;
+  height: 78px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin: 0 auto 18px;
+
+  box-shadow:
+    0 18px 40px rgba(212, 102, 122, 0.25),
+    inset 0 2px 10px rgba(255,255,255,0.08);
+
+  transition: all 0.35s ease;
+  overflow: hidden;
+}
+
+.icon:hover {
+  transform: translateY(-4px) scale(1.03);
+
+  box-shadow:
+    0 25px 55px rgba(212, 102, 122, 0.35);
+}
+
+.icon img {
+  width: 65%;
+  height: 65%;
+  object-fit: contain;
+  filter: brightness(1.08) contrast(1.05);
+}
+
+/* ================= TEXT ================= */
+
+h2 {
+  color: #fff;
+  margin-top: 10px;
+  margin-bottom: 6px;
+  text-align: center;
+  font-weight: 800;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin-bottom: 22px;
+  text-align: center;
+}
+
+/* ================= LABEL ================= */
+
+label {
+  display: block;
+  text-align: right;
+  margin: 12px 0 6px;
+  font-size: 14px;
+  color: rgba(255,255,255,0.8);
+}
+
+/* ================= INPUT ================= */
+
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 14px;
+  border: 1px solid rgba(201, 169, 110, 0.12);
+  background: rgba(255, 255, 255, 0.04);
+  color: #fff;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+input:hover {
+  border-color: rgba(91,168,192,0.4);
+}
+
+input:focus {
+  border-color: #5BA8C0;
+
+  box-shadow:
+    0 0 0 3px rgba(91,168,192,0.18),
+    0 10px 25px rgba(0,0,0,0.25);
+
+  background: rgba(255,255,255,0.06);
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ================= PASSWORD BOX ================= */
+
+.password-box {
+  position: relative;
+}
+
+.password-box input {
+  padding-left: 45px;
+}
+
+.password-box i {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #5BA8C0;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.password-box i:hover {
+  color: #D4667A;
+}
+
+/* ================= BUTTON ================= */
+
+button {
+  width: 100%;
+  padding: 14px;
+  margin-top: 16px;
+
+  border-radius: 16px;
+  border: none;
+
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+  color: #080C10;
+
+  font-size: 16px;
+  font-weight: 800;
+
+  cursor: pointer;
+  transition: all 0.35s ease;
+
+  box-shadow:
+    0 18px 40px rgba(212, 102, 122, 0.25);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 52px;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.01);
+
+  box-shadow:
+    0 25px 55px rgba(201, 169, 110, 0.28);
+}
+
+button:active {
+  transform: translateY(-1px) scale(0.99);
+}
+
+button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+
+/* ================= LOADING SPINNER ================= */
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(0,0,0,0.2);
+  border-top: 2px solid #080C10;
+  border-radius: 50%;
+  display: inline-block;
+  animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ================= REGISTER ================= */
+
+.register {
+  direction: rtl;
+  text-align: center;
+  color: rgba(255,255,255,0.7);
+  padding-top: 16px;
+}
+
+.register span {
+  padding-right: 8px;
+  color: #5BA8C0;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.register span:hover {
+  color: #D4667A;
+  transform: translateY(-2px);
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 480px) {
+  .login-card {
+    width: 95%;
+    padding: 28px 20px;
+  }
+
+  h2 {
+    font-size: 26px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+}
+/* ── FORGOT PASSWORD ── */
+.forgot-row {
+  display: flex;
+  justify-content: flex-start;
+  margin: 10px 0 4px;
+}
+.forgot-link {
+  font-size: 13px;
+  color: rgba(91,168,192,.75);
+  text-decoration: none;
+  transition: color .2s;
+}
+.forgot-link:hover { color: #5BA8C0; }

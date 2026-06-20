@@ -1,0 +1,188 @@
+
+/* ================= PAGE BACKGROUND ================= */
+
+body {
+  background: radial-gradient(
+      circle at top,
+      rgba(91, 168, 192, 0.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(212, 102, 122, 0.06),
+      transparent 45%
+    ),
+    #f6f8fb;
+}
+
+/* ================= GLOBAL TEXT ================= */
+
+h1, h2, h3, h4, h5 {
+  color: #121920 !important;
+  font-weight: 800;
+}
+
+p {
+  color: #2f3b45;
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+/* ================= MAIN CARDS ================= */
+
+.bg-white-card {
+  background: rgba(255, 255, 255, 0.85);
+
+  border-radius: 24px;
+
+  border: 1px solid rgba(18, 25, 32, 0.06);
+
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 10px 30px rgba(18, 25, 32, 0.06);
+
+  transition: 0.3s ease;
+}
+
+.bg-white-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 18px 45px rgba(18, 25, 32, 0.12);
+}
+
+/* ================= ICON CIRCLES ================= */
+
+.icon-circle {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #D4667A, #5BA8C0);
+
+  color: #fff;
+
+  box-shadow:
+    0 12px 25px rgba(212, 102, 122, 0.25),
+    0 6px 15px rgba(91, 168, 192, 0.15);
+}
+
+/* ================= SECTION TITLES ================= */
+
+.text-dark-cyan {
+  color: #1a4d57 !important;
+}
+
+.text-cyan-950 {
+  color: #083344 !important;
+}
+
+.text-secondary {
+  color: #4b5563 !important;
+}
+
+/* ================= LISTS ================= */
+
+.custom-list-disc {
+  list-style: disc;
+  padding-right: 1.5rem;
+  color: #4b5563;
+}
+
+.custom-list-disc li {
+  margin-bottom: 0.7rem;
+}
+
+/* ================= CTA BOX (CONTACT SECTION) ================= */
+
+.bg-soft-teal {
+  background: linear-gradient(
+    135deg,
+    #ffffff,
+    #f6f8fb
+  );
+
+  border: 1px solid rgba(91, 168, 192, 0.15);
+
+  box-shadow:
+    0 10px 30px rgba(18, 25, 32, 0.06);
+
+  border-radius: 24px;
+}
+
+/* ================= BUTTON ================= */
+
+button {
+  border: none;
+
+  border-radius: 14px;
+
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+
+  color: #fff;
+
+  font-weight: 700;
+
+  padding: 12px 20px;
+
+  cursor: pointer;
+
+  transition: 0.3s ease;
+
+  box-shadow:
+    0 15px 30px rgba(212, 102, 122, 0.25);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 20px 40px rgba(212, 102, 122, 0.3);
+}
+
+/* ================= BADGE / LABELS ================= */
+
+.badge-ai-custom {
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+
+  color: #fff;
+
+  padding: 6px 14px;
+
+  border-radius: 999px;
+
+  font-weight: 700;
+
+  box-shadow: 0 12px 25px rgba(212, 102, 122, 0.25);
+}
+
+/* ================= HOVER POLISH ================= */
+
+a {
+  transition: 0.3s ease;
+}
+
+a:hover {
+  color: #D4667A;
+}
+
+/* ================= DIVIDERS ================= */
+
+hr {
+  opacity: 0.15;
+}
+
+/* ================= OPTIONAL LIFT EFFECT FOR CARDS ================= */
+
+.card-hover {
+  transition: 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+}

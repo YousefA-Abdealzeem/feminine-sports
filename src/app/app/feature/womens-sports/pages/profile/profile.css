@@ -1,0 +1,465 @@
+/* ========================================
+   PROFILE PAGE — HerPower
+   Direction: RTL | Arabic | Bootstrap
+   Palette: teal #1a6e7e | rose #D4667A | gold #C9A96E | ice #5BA8C0
+======================================== */
+
+.profile-page {
+  background: #f6f8fb;
+  min-height: 100vh;
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+}
+
+/* ============ COVER SECTION ============ */
+
+.cover-section {
+  position: relative;
+  margin-bottom: 70px;
+}
+
+.cover-wrapper {
+  position: relative;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.cover-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(18, 25, 32, 0.1) 0%,
+    rgba(18, 25, 32, 0.55) 100%
+  );
+}
+
+.change-cover-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  background: rgba(18, 25, 32, 0.75);
+  color: #C9A96E;
+  border: 1px solid rgba(201, 169, 110, 0.5);
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition: 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.change-cover-btn:hover {
+  background: rgba(201, 169, 110, 0.25);
+  color: #f0d090;
+}
+
+/* ============ AVATAR ============ */
+
+.avatar-wrapper {
+  position: absolute;
+  bottom: -65px;
+  right: calc(50% - 325px);
+}
+
+.avatar-ring {
+  position: relative;
+  width: 130px;
+  height: 130px;
+}
+
+.avatar-img {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid #fff;
+  box-shadow:
+    0 8px 30px rgba(18, 25, 32, 0.2),
+    0 0 0 3px rgba(91, 168, 192, 0.4);
+}
+
+.change-avatar-btn {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+  background: linear-gradient(135deg, #1a6e7e, #5BA8C0);
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  border: 2px solid #fff;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 12px rgba(26, 110, 126, 0.4);
+}
+
+.change-avatar-btn:hover {
+  transform: scale(1.1);
+  background: linear-gradient(135deg, #D4667A, #C9A96E);
+}
+
+/* ============ CONTAINER ============ */
+
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+/* ============ NAME & ACTIONS BAR ============ */
+
+.user-display-name {
+  font-size: 26px;
+  font-weight: 800;
+  color: #121920;
+  margin: 0 0 4px;
+}
+
+.user-username {
+  font-size: 14px;
+  font-weight: 500;
+  color: #6b7280;
+}
+
+/* ============ BUTTONS ============ */
+
+.btn-primary-custom {
+  background: linear-gradient(135deg, #1a6e7e, #5BA8C0);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 20px rgba(26, 110, 126, 0.3);
+}
+
+.btn-primary-custom:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(26, 110, 126, 0.4);
+  color: #fff;
+}
+
+.btn-success-custom {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+  color: #fff;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.3s ease;
+  box-shadow: 0 6px 20px rgba(22, 163, 74, 0.3);
+}
+
+.btn-success-custom:hover {
+  transform: translateY(-2px);
+  color: #fff;
+}
+
+.btn-cancel-custom {
+  background: transparent;
+  color: #6b7280;
+  border: 1.5px solid #d1d5db;
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.btn-cancel-custom:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.btn-outline-custom {
+  background: transparent;
+  color: #D4667A;
+  border: 1.5px solid rgba(212, 102, 122, 0.5);
+  border-radius: 999px;
+  padding: 10px 24px;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+.btn-outline-custom:hover {
+  background: rgba(212, 102, 122, 0.08);
+  border-color: #D4667A;
+  color: #D4667A;
+}
+
+/* ============ GLASS CARD ============ */
+
+.card-glass {
+  background: #ffffff;
+  border: 1px solid rgba(91, 168, 192, 0.15);
+  border-radius: 20px;
+  padding: 28px 32px;
+  box-shadow:
+    0 4px 24px rgba(18, 25, 32, 0.07),
+    0 1px 4px rgba(18, 25, 32, 0.04);
+  transition: box-shadow 0.3s ease;
+}
+
+.card-glass:hover {
+  box-shadow:
+    0 8px 32px rgba(18, 25, 32, 0.10),
+    0 2px 8px rgba(91, 168, 192, 0.08);
+}
+
+/* ============ SECTION TITLE ============ */
+
+.section-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: #1a6e7e;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 2px solid rgba(91, 168, 192, 0.2);
+  display: flex;
+  align-items: center;
+}
+
+/* ============ INFO GRID ============ */
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 28px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.info-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.info-value {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 11px 16px;
+  min-height: 46px;
+  display: flex;
+  align-items: center;
+}
+
+.bio-text {
+  align-items: flex-start;
+  line-height: 1.7;
+  min-height: 60px;
+}
+
+.info-icon {
+  color: #5BA8C0;
+  font-size: 14px;
+}
+
+.badge-username {
+  background: linear-gradient(135deg, rgba(91, 168, 192, 0.12), rgba(26, 110, 126, 0.1));
+  color: #1a6e7e;
+  border: 1px solid rgba(91, 168, 192, 0.3);
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.info-input {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1f2937;
+  background: #fff;
+  border: 1.5px solid #5BA8C0;
+  border-radius: 10px;
+  padding: 11px 16px;
+  font-family: 'Cairo', sans-serif;
+  width: 100%;
+  outline: none;
+  transition: 0.3s ease;
+  resize: none;
+}
+
+.info-input:focus {
+  border-color: #1a6e7e;
+  box-shadow: 0 0 0 3px rgba(91, 168, 192, 0.15);
+}
+
+/* ============ QUICK LINKS ============ */
+
+.quick-links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.quick-link-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px 16px;
+  border-radius: 16px;
+  border: 1.5px solid rgba(91, 168, 192, 0.2);
+  background: #f9fafb;
+  color: #1a6e7e;
+  font-family: 'Cairo', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.quick-link-btn i {
+  font-size: 22px;
+}
+
+.quick-link-btn:hover {
+  background: linear-gradient(135deg, rgba(26, 110, 126, 0.08), rgba(91, 168, 192, 0.1));
+  border-color: rgba(91, 168, 192, 0.5);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(26, 110, 126, 0.12);
+}
+
+.quick-link-btn.danger {
+  color: #D4667A;
+  border-color: rgba(212, 102, 122, 0.2);
+}
+
+.quick-link-btn.danger:hover {
+  background: rgba(212, 102, 122, 0.06);
+  border-color: rgba(212, 102, 122, 0.4);
+  box-shadow: 0 8px 20px rgba(212, 102, 122, 0.12);
+}
+
+/* ============ RESPONSIVE ============ */
+
+@media (max-width: 992px) {
+  .avatar-wrapper {
+    right: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cover-wrapper {
+    height: 200px;
+  }
+
+  .avatar-wrapper {
+    right: 50%;
+    transform: translateX(50%);
+    bottom: -60px;
+  }
+
+  .cover-section {
+    margin-bottom: 80px;
+  }
+
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full-width {
+    grid-column: 1;
+  }
+
+  .quick-links-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .card-glass {
+    padding: 20px 18px;
+  }
+
+  .action-btns {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .action-btns .btn-primary-custom,
+  .action-btns .btn-outline-custom,
+  .action-btns .btn-success-custom,
+  .action-btns .btn-cancel-custom {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-display-name {
+    font-size: 20px;
+  }
+}
+
+
+.cover-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #1a6e7e, #5BA8C0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 60px;
+}
+
+.avatar-placeholder {
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #1a6e7e, #5BA8C0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 50px;
+  border: 4px solid #fff;
+  box-shadow:
+    0 8px 30px rgba(18, 25, 32, 0.2),
+    0 0 0 3px rgba(91, 168, 192, 0.4);
+}

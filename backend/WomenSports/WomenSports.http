@@ -1,0 +1,6 @@
+@WomenSports_HostAddress = http://localhost:5021
+
+GET {{WomenSports_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
